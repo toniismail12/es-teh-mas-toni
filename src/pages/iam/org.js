@@ -1,0 +1,332 @@
+import { useEffect, useState, useCallback } from 'react';
+import { Main } from '@/layouts';
+import { GetOrg, SaveOrg, DeleteOrg } from '@/controllers';
+import { Decode } from '@/utils';
+import { Tree } from 'antd';
+import { Modal } from '@/components'
+
+export default function Org() {
+
+  const [ShowModal, setShowModal] = useState('')
+  const [datas, setData] = useState([])
+
+  const [uid, setUid] = useState("")
+  const [orgName, setOrgName] = useState("")
+  const [code, setCode] = useState("")
+  const [orgCode, setOrgCode] = useState("")
+  const [reportTo, setReportTo] = useState("")
+  const [status, setStatus] = useState("")
+
+  const onSelect = (selectedKeys, info) => {
+    // console.log('selected', selectedKeys, info);
+
+    const orgDetail = info.node
+    // console.log(orgDetail)
+    setUid(orgDetail.uid)
+    setOrgName(orgDetail.text)
+    setCode(orgDetail.code)
+    setOrgCode(orgDetail.org_code)
+    setReportTo(orgDetail.parent)
+    setStatus(orgDetail.status)
+
+    setShowModal("show")
+  };
+
+  const createTreeData = (data) => {
+    // Create a map to store nodes by their org_code
+    const nodeMap = new Map();
+    const rootNodes = [];
+
+    // Populate the map with nodes
+    data.forEach(item => {
+      nodeMap.set(item.org_code, {
+        title: item.text + " | " + item.code + " | " + item.org_code + " | " + item.status,
+        text: item.text,
+        uid: item.uid,
+        key: item.org_code,
+        org_code: item.org_code,
+        code: item.code,
+        parent: item.org_code_parent,
+        status: item.status,
+        children: []
+      });
+    });
+
+    // Create the tree structure
+    data.forEach(item => {
+      const node = nodeMap.get(item.org_code);
+      const parentNode = nodeMap.get(item.org_code_parent);
+
+      if (parentNode) {
+        parentNode.children.push(node);
+      } else if (item.org_code_parent === '') {
+        // If no parent, it's a root node
+        rootNodes.push(node);
+      }
+    });
+
+    // Debugging: Inspect intermediate results
+    // console.log('Node Map:', Array.from(nodeMap.entries()));
+    // console.log('Root Nodes:', rootNodes);
+
+    // Remove children property if empty
+    const cleanTree = (node) => {
+      if (!node.children.length) {
+        delete node.children;
+      } else {
+        node.children.forEach(cleanTree);
+      }
+    };
+
+    rootNodes.forEach(cleanTree);
+
+    return rootNodes;
+  };
+
+  const fetchData = useCallback(async () => {
+
+    const getTotal = await GetOrg(1, 1)
+    const total = getTotal?.meta?.total;
+
+    const res = await GetOrg(1, total);
+
+    if (res !== 'error') {
+      const resDecode = Decode(res.data);
+      // console.log(resDecode)
+      setData(resDecode)
+
+    }
+
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const treeDatas = createTreeData(datas);
+  // console.log(JSON.stringify(treeDatas, null, 2));
+
+  const onRightClick = (selectedKeys) => {
+
+    // console.log('right click', selectedKeys.node);
+    const data = selectedKeys.node;
+
+    const cnf = confirm("Delete "+ data.text + "?");
+    if(cnf) {
+      DeleteOrg(data.uid)
+      fetchData();
+    }
+  };
+
+  function generate12DigitInteger() {
+      const min = 100000000000; // Smallest 12-digit number
+      const max = 999999999999; // Largest 12-digit number
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function showForm() {
+
+    const code = generate12DigitInteger()
+
+    setUid("")
+    setOrgName("")
+    setCode(code)
+    setOrgCode("")
+    setReportTo("")
+    setStatus("")
+
+    setShowModal("show")
+  }
+
+  async function submitForm() {
+
+    const res = await SaveOrg(uid, orgName, ""+code, orgCode, reportTo, status)
+    if(res !== "error") {
+      fetchData()
+      alert("success")
+      setShowModal("")
+    }
+  }
+
+  return (
+    <Main>
+      <div className="row">
+        <div className='col-lg-12'>
+        <button onClick={showForm} className="btn btn-primary fw-semibold py-8 me-3">
+            <i class="ti ti-plus"></i>
+            Tambah Data
+        </button>
+        </div>
+        <div className="col-lg-12 p-3">
+          <div className='card'>
+            <div className='card-body'>
+
+              <Tree
+                showLine
+                // defaultExpandedKeys={['']}
+                onSelect={onSelect}
+                onRightClick={onRightClick}
+                treeData={treeDatas}
+              />
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        show={ShowModal}
+        title={"ORG DETAIL"}
+        onClose={() => setShowModal('')}
+        body={
+          <div className="modal-body">
+            <div className="col-12">
+              <div className="card w-100 position-relative overflow-hidden mb-0">
+                <div className="card-body p-4">
+
+                    <div className="mb-4 row align-items-center">
+                      <label
+                        htmlFor="exampleInputText31"
+                        className="form-label col-sm-3 col-form-label"
+                      >
+                        Name
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="input-group border rounded-1">
+                          <span
+                            className="input-group-text bg-transparent px-6 border-0"
+                          >
+                            <i className="ti ti-hierarchy fs-6" />
+                          </span>
+                          <input
+                            value={orgName}
+                            onChange={(e)=>setOrgName(e.target.value)}
+                            name="name"
+                            type="text"
+                            className="form-control border-0 ps-2"
+                            placeholder="org name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-4 row align-items-center">
+                      <label
+                        htmlFor="exampleInputText33"
+                        className="form-label col-sm-3 col-form-label"
+                      >
+                        Code
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="input-group border rounded-1">
+                          <span
+                            className="input-group-text bg-transparent px-6 border-0"
+                          >
+                            <i className="ti ti-dna fs-6" />
+                          </span>
+                          <input
+                            value={code}
+                            onChange={(e)=>setCode(e.target.value)}
+                            name="code"
+                            type="text"
+                            className="form-control border-0 ps-2"
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-4 row align-items-center">
+                      <label
+                        htmlFor="exampleInputText33"
+                        className="form-label col-sm-3 col-form-label"
+                      >
+                        org code
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="input-group border rounded-1">
+                          <span
+                            className="input-group-text bg-transparent px-6 border-0"
+                          >
+                            <i className="ti ti-fidget-spinner fs-6" />
+                          </span>
+                          <input
+                            value={orgCode}
+                            onChange={(e)=>setOrgCode(e.target.value)}
+                            name="org_code"
+                            type="text"
+                            className="form-control border-0 ps-2"
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-4 row align-items-center">
+                      <label
+                        htmlFor="exampleInputText40"
+                        className="form-label col-sm-3 col-form-label"
+                      >
+                        Report To
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="input-group border rounded-1">
+                          <span
+                            className="input-group-text bg-transparent px-6 border-0"
+                          >
+                            <i className="ti ti-brand-tidal fs-6" />
+                          </span>
+                          <input
+                            value={reportTo}
+                            onChange={(e)=>setReportTo(e.target.value)}
+                            name="report_to"
+                            type="text"
+                            id="report_to"
+                            className="form-control border-0 ps-2"
+                            placeholder="org code parent"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-4 row align-items-center">
+                      <label
+                        htmlFor="exampleInputText40"
+                        className="form-label col-sm-3 col-form-label"
+                      >
+                        Status
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="input-group border rounded-1">
+                          <span
+                            className="input-group-text bg-transparent px-6 border-0"
+                          >
+                            <i className="ti ti-rotate-rectangle fs-6" />
+                          </span>
+                          <select value={status} onChange={(e)=>setStatus(e.target.value)} className='form-select'>
+                          <option value="">Pilih Status</option>
+                            <option value="active">active</option>
+                            <option value="in-active">in-active</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="row">
+                      <div className="col-sm-3" />
+                      <div className="col-sm-9">
+                        <button onClick={() => setShowModal('')} className="btn btn-warning fw-semibold me-3">
+                          Close
+                        </button>
+                        <button onClick={submitForm} className="btn btn-primary">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      />
+
+    </Main>
+  );
+}
