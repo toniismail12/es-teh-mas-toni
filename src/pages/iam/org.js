@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback } from 'react';
 import { Main } from '@/layouts';
+import { useEffect, useState, useCallback } from 'react';
 import { GetOrg, SaveOrg, DeleteOrg } from '@/controllers';
 import { Decode } from '@/utils';
 import { Tree } from 'antd';
@@ -16,6 +16,7 @@ export default function Org() {
   const [orgCode, setOrgCode] = useState("")
   const [reportTo, setReportTo] = useState("")
   const [status, setStatus] = useState("")
+  const [level, setLevel] = useState("")
 
   const onSelect = (selectedKeys, info) => {
     // console.log('selected', selectedKeys, info);
@@ -28,6 +29,7 @@ export default function Org() {
     setOrgCode(orgDetail.org_code)
     setReportTo(orgDetail.parent)
     setStatus(orgDetail.status)
+    setLevel(orgDetail.level)
 
     setShowModal("show")
   };
@@ -39,27 +41,28 @@ export default function Org() {
 
     // Populate the map with nodes
     data.forEach(item => {
-      nodeMap.set(item.org_code, {
-        title: item.text + " | " + item.code + " | " + item.org_code + " | " + item.status,
+      nodeMap.set(item.code, {
+        title: item.text + " | " + item.code + " | " + item.status,
         text: item.text,
         uid: item.uid,
         key: item.org_code,
         org_code: item.org_code,
         code: item.code,
-        parent: item.org_code_parent,
+        parent: item.code_parent,
         status: item.status,
+        level: item.level,
         children: []
       });
     });
 
     // Create the tree structure
     data.forEach(item => {
-      const node = nodeMap.get(item.org_code);
-      const parentNode = nodeMap.get(item.org_code_parent);
+      const node = nodeMap.get(item.code);
+      const parentNode = nodeMap.get(item.code_parent);
 
       if (parentNode) {
         parentNode.children.push(node);
-      } else if (item.org_code_parent === '') {
+      } else if (item.code_parent === '#') {
         // If no parent, it's a root node
         rootNodes.push(node);
       }
@@ -92,7 +95,7 @@ export default function Org() {
 
     if (res !== 'error') {
       const resDecode = Decode(res.data);
-      // console.log(resDecode)
+      console.log(resDecode)
       setData(resDecode)
 
     }
@@ -134,13 +137,14 @@ export default function Org() {
     setOrgCode("")
     setReportTo("")
     setStatus("")
+    setLevel("")
 
     setShowModal("show")
   }
 
   async function submitForm() {
 
-    const res = await SaveOrg(uid, orgName, ""+code, orgCode, reportTo, status)
+    const res = await SaveOrg(uid, orgName, ""+code, orgCode, reportTo, status, level)
     if(res !== "error") {
       fetchData()
       alert("success")
@@ -303,6 +307,30 @@ export default function Org() {
                           <option value="">Pilih Status</option>
                             <option value="active">active</option>
                             <option value="in-active">in-active</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mb-4 row align-items-center">
+                      <label
+                        htmlFor="exampleInputText40"
+                        className="form-label col-sm-3 col-form-label"
+                      >
+                        Level
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="input-group border rounded-1">
+                          <span
+                            className="input-group-text bg-transparent px-6 border-0"
+                          >
+                            <i className="ti ti-rotate-rectangle fs-6" />
+                          </span>
+                          <select value={level} onChange={(e)=>setLevel(e.target.value)} className='form-select'>
+                          <option value="">Pilih Level</option>
+                            <option value={1}>DIREKTORAT</option>
+                            <option value={2}>KOMPARTEMEN</option>
+                            <option value={3}>DEPARTEMEN</option>
                           </select>
                         </div>
                       </div>

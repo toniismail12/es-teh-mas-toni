@@ -22,7 +22,7 @@ async function GetOrg(pages, limits, text) {
 
 }
 
-async function SaveOrg(uid, orgName, code, orgCode, parent, status) {
+async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
 
     const data = {
         uid: uid,
@@ -31,6 +31,7 @@ async function SaveOrg(uid, orgName, code, orgCode, parent, status) {
         org_code: orgCode,
         org_code_parent: parent,
         status: status,
+        level: parseInt(level),
     }
 
     console.log(data)
@@ -67,5 +68,32 @@ async function DeleteOrg(uid) {
 
 }
 
+async function GetEmp(pages, limits, nama, badge, komp_id, komp_title, dept_id, dept_title) {
+
+    const config = {
+        params: { 
+            page: pages,
+            limit: limits,
+            nama: nama,
+            badge: badge,
+            komp_id: komp_id,
+            komp_title: komp_title,
+            dept_id: dept_id,
+            dept_title: dept_title,
+        },
+    }
+
+    try {
+        const res = await svc_iam.get("/api/emp", config);
+        // console.log('Response:', res);
+        return res?.data
+
+    } catch (error) {
+        console.error('Error:', error);
+        return "error"
+    }
+
+}
+
 export default GetOrg
-export { GetOrg, SaveOrg, DeleteOrg }
+export { GetOrg, SaveOrg, DeleteOrg, GetEmp }
