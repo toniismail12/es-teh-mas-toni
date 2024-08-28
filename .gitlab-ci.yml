@@ -16,7 +16,7 @@ build-and-publish:
     - build-publish
   only:
     - master
-    - development
+    - dev
   stage: build-and-publish
   script:
     - >
