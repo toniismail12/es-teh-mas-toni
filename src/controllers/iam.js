@@ -30,6 +30,7 @@ async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
         code: code,
         org_code: orgCode,
         org_code_parent: parent,
+        code_parent: parent,
         status: status,
         level: parseInt(level),
     }
