@@ -7,6 +7,8 @@ import { Modal } from '@/components'
 
 export default function Org() {
 
+  console.log("update payload")
+
   const [ShowModal, setShowModal] = useState('')
   const [datas, setData] = useState([])
 
@@ -95,7 +97,7 @@ export default function Org() {
 
     if (res !== 'error') {
       const resDecode = Decode(res.data);
-      console.log(resDecode)
+      // console.log(resDecode)
       setData(resDecode)
 
     }

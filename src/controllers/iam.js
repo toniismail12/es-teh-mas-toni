@@ -35,7 +35,7 @@ async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
         level: parseInt(level),
     }
 
-    console.log(data)
+    // console.log(data)
 
     try {
         const res = await svc_iam.post("/admin/organization", data);
@@ -47,6 +47,8 @@ async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
         alert("error")
         return "error"
     }
+
+    return []
 
 }
 
