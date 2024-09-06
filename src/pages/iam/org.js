@@ -4,10 +4,9 @@ import { GetOrg, SaveOrg, DeleteOrg } from '@/controllers';
 import { Decode } from '@/utils';
 import { Tree } from 'antd';
 import { Modal } from '@/components'
+import Link from 'next/link';
 
 export default function Org() {
-
-  console.log("update payload")
 
   const [ShowModal, setShowModal] = useState('')
   const [datas, setData] = useState([])
@@ -162,6 +161,9 @@ export default function Org() {
             <i class="ti ti-plus"></i>
             Tambah Data
         </button>
+        <Link href="/iam/table-org" onClick={showForm} className="btn btn-warning fw-semibold py-8 me-3">
+            Table ORG
+        </Link>
         </div>
         <div className="col-lg-12 p-3">
           <div className='card'>
