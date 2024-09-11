@@ -9,6 +9,7 @@ export default function Org() {
 
     const [ShowModal, setShowModal] = useState('')
     const [datas, setData] = useState([])
+    const [alldatas, setAllData] = useState([])
 
     const [uid, setUid] = useState("")
     const [orgName, setOrgName] = useState("")
@@ -37,7 +38,13 @@ export default function Org() {
             const resDecode = Decode(res.data);
             // console.log(resDecode)
             setData(resDecode)
+        }
+        const res2 = await GetOrg(1, total);
 
+        if (res2 !== 'error') {
+            const resDecode = Decode(res2.data);
+            // console.log(resDecode)
+            setAllData(resDecode)
         }
 
     }, []);
@@ -88,7 +95,7 @@ export default function Org() {
     function ShowParent(code) {
         var text = ""
         
-        datas.filter((f)=>f.code === code).map((item)=>{
+        alldatas.filter((f)=>f.code === code).map((item)=>{
             text=item.text
         })
 
