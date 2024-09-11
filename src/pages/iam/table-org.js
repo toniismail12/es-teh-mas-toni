@@ -23,13 +23,15 @@ export default function Org() {
     const [f_orgCode, f_setOrgCode] = useState("")
     const [f_reportTo, f_setReportTo] = useState("")
     const [f_level, f_setLevel] = useState("") 
+    const [f_code, f_setCode] = useState("") 
+    const [f_status, f_setStatus] = useState("")
 
-    const fetchData = useCallback(async (text, org_code, report_to, level) => {
+    const fetchData = useCallback(async (text, code, org_code, report_to, level, status) => {
 
         const getTotal = await GetOrg(1, 1)
         const total = getTotal?.meta?.total;
 
-        const res = await GetOrg(1, total, text, "", org_code, report_to, level);
+        const res = await GetOrg(1, total, text, code, org_code, report_to, level, status);
 
         if (res !== 'error') {
             const resDecode = Decode(res.data);
@@ -41,8 +43,8 @@ export default function Org() {
     }, []);
 
     useEffect(() => {
-        fetchData(f_orgName, f_orgCode, f_reportTo, f_level);
-    }, [fetchData, f_orgName, f_orgCode, f_reportTo, f_level]);
+        fetchData(f_orgName, f_code, f_orgCode, f_reportTo, f_level, f_status);
+    }, [fetchData, f_orgName, f_code, f_orgCode, f_reportTo, f_level, f_status]);
 
     function generate12DigitInteger() {
         const min = 100000000000; // Smallest 12-digit number
@@ -109,21 +111,31 @@ export default function Org() {
                     <div className='card'>
                         <div className='card-body'>
                             <div className="row">
-                                <div className="col-lg-3 mb-2">
+                                <div className="col-lg-2 mb-2">
+                                    <input value={f_code} onChange={e=>f_setCode(e.target.value)} type="text" className="form-control" placeholder="search code"/>
+                                </div>
+                                <div className="col-lg-2 mb-2">
                                     <input value={f_orgName} onChange={e=>f_setOrgName(e.target.value)} type="text" className="form-control" placeholder="search org name"/>
                                 </div>
-                                <div className="col-lg-3 mb-2">
+                                <div className="col-lg-2 mb-2">
                                     <input value={f_orgCode} onChange={e=>f_setOrgCode(e.target.value)} type="text" className="form-control" placeholder="search org code"/>
                                 </div>
-                                <div className="col-lg-3 mb-2">
+                                <div className="col-lg-2 mb-2">
                                     <input value={f_reportTo} onChange={e=>f_setReportTo(e.target.value)} type="text" className="form-control" placeholder="search report to"/>
                                 </div>
-                                <div className="col-lg-3 mb-2">
+                                <div className="col-lg-2 mb-2">
                                     <select value={f_level} onChange={e=>f_setLevel(e.target.value)} className='form-select'>
                                         <option value="">All Level</option>
                                         <option value={1}>DIREKTORAT</option>
                                         <option value={2}>KOMPARTEMEN</option>
                                         <option value={3}>DEPARTEMEN</option>
+                                    </select>
+                                </div>
+                                <div className="col-lg-2 mb-2">
+                                    <select value={f_status} onChange={e=>f_setStatus(e.target.value)} className='form-select'>
+                                        <option value="">All Status</option>
+                                        <option value="active">Active</option>
+                                        <option value="in-active">In-Active</option>
                                     </select>
                                 </div>
                             </div>

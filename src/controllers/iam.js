@@ -1,6 +1,6 @@
 import { svc_iam } from "@/api";
 
-async function GetOrg(pages, limits, text, code, org_code, report_to, level) {
+async function GetOrg(pages, limits, text, code, org_code, report_to, level, status) {
 
     const config = {
         params: { 
@@ -11,6 +11,7 @@ async function GetOrg(pages, limits, text, code, org_code, report_to, level) {
             org_code: org_code,
             code_parent: report_to,
             level: level,
+            status: status,
         },
     }
 
