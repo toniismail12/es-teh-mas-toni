@@ -27,6 +27,29 @@ async function GetOrg(pages, limits, text, code, org_code, report_to, level, sta
 
 }
 
+async function GetOldOrg(pages, limits, text, org_code) {
+
+    const config = {
+        params: { 
+            page: pages,
+            limit: limits,
+            org_unit_desc: text,
+            org_unit: org_code,
+        },
+    }
+
+    try {
+        const res = await svc_iam.get("/api/old-organization", config);
+        // console.log('Response:', res);
+        return res?.data
+
+    } catch (error) {
+        console.error('Error:', error);
+        return "error"
+    }
+
+}
+
 async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
 
     const data = {
@@ -104,4 +127,4 @@ async function GetEmp(pages, limits, nama, badge, komp_id, komp_title, dept_id, 
 }
 
 export default GetOrg
-export { GetOrg, SaveOrg, DeleteOrg, GetEmp }
+export { GetOrg, SaveOrg, DeleteOrg, GetEmp, GetOldOrg }

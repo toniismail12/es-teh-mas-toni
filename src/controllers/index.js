@@ -1,4 +1,4 @@
-import { GetOrg, SaveOrg, DeleteOrg, GetEmp } from "./iam";
+import { GetOrg, SaveOrg, DeleteOrg, GetEmp, GetOldOrg } from "./iam";
 
 export default GetOrg
-export { GetOrg, SaveOrg, DeleteOrg, GetEmp }
+export { GetOrg, SaveOrg, DeleteOrg, GetEmp, GetOldOrg }

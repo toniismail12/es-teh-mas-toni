@@ -7,8 +7,6 @@ export default function Modal({show, title, onClose, body}) {
             className={`modal fade ${show}`}
             id="modal"
             style={{ display: show === 'show' ? 'block' : 'none' }}
-            aria-modal="true"
-            role="dialog"
         >
             <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
