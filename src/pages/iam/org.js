@@ -79,7 +79,7 @@ export default function Org() {
 
     // Remove children property if empty
     const cleanTree = (node) => {
-      if (!node.children.length) {
+      if (!node.children?.length) {
         delete node.children;
       } else {
         node.children.forEach(cleanTree);
