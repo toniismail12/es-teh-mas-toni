@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Documentation api services</title>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.3/swagger-ui.min.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.3/swagger-ui.min.css" /> -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
 </head>
 <body>
 
@@ -10,6 +11,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.3/swagger-ui-bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.52.3/swagger-ui-standalone-preset.min.js"></script>
+  
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+
   <script>
     window.onload = function() {
       const ui = SwaggerUIBundle({
@@ -19,7 +23,9 @@
           SwaggerUIBundle.presets.apis,
           SwaggerUIStandalonePreset
         ],
-        layout: "BaseLayout"
+        layout: "BaseLayout",
+        deepLinking: true,
+        filter: true,
       });
     }
   </script>

@@ -3,6 +3,7 @@ info:
   version: 1.0.0
   title: API SERVICES
   description: API Documentation
+  
 servers:
   - url: https://gwkong.pusri.co.id/service-iam-dev
     description: API Dev
@@ -10,6 +11,8 @@ servers:
     description: API Prod
   - url: http://10.10.2.189:62714
     description: API Send OTP WA
+  - url: http://10.10.2.189:62821
+    description: API Encrypt Decrypt
 
 components:
   securitySchemes:
@@ -43,10 +46,11 @@ security:
   - bearerAuth: []
 
 paths:
+
   /api/organization:
     get:
       tags:
-        - Organizations
+        - organizations
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Limit"
@@ -87,7 +91,7 @@ paths:
   /send-otp:
     post:
       tags:
-        - Kode OTP
+        - kode otp
       description: This endpoint is used for send kode otp via wa, and it is accessible to all roles.
       requestBody:
         required: true
@@ -113,7 +117,7 @@ paths:
   /verify-otp:
     post:
       tags:
-        - Kode OTP
+        - kode otp
       description: This endpoint is used for verify kode, and it is accessible to all roles.
       requestBody:
         required: true
@@ -123,6 +127,52 @@ paths:
               type: object
               properties:
                 kode:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/encrypt:
+    post:
+      tags:
+        - encrypt - decrypt
+      description: This endpoint is used for encrypt text, and it is accessible user role registered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/decrypt:
+    post:
+      tags:
+        - encrypt - decrypt
+      description: This endpoint is used for decrypt text, and it is accessible user role registered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                key:
                   type: string
       responses:
         "200":

@@ -232,7 +232,7 @@ export default function Org() {
 
       <Modal
         show={ShowModal}
-        title={"ORG DETAIL"}
+        title={uid === "" ? "ADD ORG" : "UPDATE ORG"}
         onClose={() => setShowModal('')}
         body={
           <div className="modal-body" id="select-search2">
@@ -267,6 +267,7 @@ export default function Org() {
                         />
 
                       </div>
+                      {orgName}
                     </div>
                   </div>
                   <div className="mb-4 row align-items-center">
@@ -356,6 +357,7 @@ export default function Org() {
                           placeholder="code"
                         /> */}
                       </div>
+                      {reportTo}
                     </div>
                   </div>
                   <div className="mb-4 row align-items-center">

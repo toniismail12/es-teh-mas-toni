@@ -1,9 +1,9 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
-@import "/fonts/tabler-icons/tabler-icons.css";
-@import "/fonts/crypto-icons/cryptocoins.css";
-@import "/fonts/flag-icon-css/flag-icon.min.css";
-@import "/fonts/font-awesome/css/fontawesome-all.css";
+@import "fonts/tabler-icons/tabler-icons.css";
+@import "fonts/crypto-icons/cryptocoins.css";
+@import "fonts/flag-icon-css/flag-icon.min.css";
+@import "fonts/font-awesome/css/fontawesome-all.css";
 [data-bs-theme=dark] {
   --bs-heading-color: #eaeff4 !important;
 }
