@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from "next/image";
+import Link from "next/link"
 
 export default function Header() {
     return (
@@ -27,17 +28,17 @@ export default function Header() {
                         {/* ------------------------------- */}
                         <li className="nav-item d-none d-lg-block">
 
-                            <a
+                            <Link
                                 className="nav-link"
                                 href="/"
                                 data-bs-toggle="dropdown"
                             >
                                 Home
-                            </a>
+                            </Link>
 
                         </li>
                         <li className="nav-item dropdown hover-dd d-none d-lg-block">
-                            <a
+                            <Link
                                 className="nav-link"
                                 href="javascript:void(0)"
                                 data-bs-toggle="dropdown"
@@ -46,7 +47,7 @@ export default function Header() {
                                 <span className="mt-1">
                                     <i className="ti ti-chevron-down fs-3" />
                                 </span>
-                            </a>
+                            </Link>
 
                             <div className="dropdown-menu dropdown-menu-animate-up py-0">
                                 <div className="row">
@@ -56,7 +57,7 @@ export default function Header() {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="position-relative">
-                                                            <a
+                                                            <Link
                                                                 href="/iam/org"
                                                                 className="d-flex align-items-center pb-9 position-relative"
                                                             >
@@ -67,9 +68,9 @@ export default function Header() {
                                                                     </h6>
                                                                     
                                                                 </div>
-                                                            </a> 
+                                                            </Link> 
 
-                                                            <a
+                                                            <Link
                                                                 href="#"
                                                                 className="d-flex align-items-center pb-9 position-relative"
                                                             >
@@ -80,7 +81,7 @@ export default function Header() {
                                                                     </h6>
                                                                     
                                                                 </div>
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
 
