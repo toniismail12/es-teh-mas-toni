@@ -8,6 +8,8 @@ servers:
     description: API Dev
   - url: https://gwkong.pusri.co.id/service-iam-prod
     description: API Prod
+  - url: http://10.10.2.189:62714
+    description: API Send OTP WA
 
 components:
   securitySchemes:
@@ -74,6 +76,54 @@ paths:
           schema:
             type: string
           description: "active, in-active"
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /send-otp:
+    post:
+      tags:
+        - Kode OTP
+      description: This endpoint is used for send kode otp via wa, and it is accessible to all roles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                badge:
+                  type: string
+                name:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /verify-otp:
+    post:
+      tags:
+        - Kode OTP
+      description: This endpoint is used for verify kode, and it is accessible to all roles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                kode:
+                  type: string
       responses:
         "200":
           $ref: "#/components/responses/200"
