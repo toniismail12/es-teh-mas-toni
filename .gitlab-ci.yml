@@ -49,6 +49,6 @@ bridging-to-another-pipeline:
   needs: 
     - build-and-publish
   trigger:
-    project: services-services/infra-things
+    project: service-service/infra-things
     branch: master
     strategy: depend
