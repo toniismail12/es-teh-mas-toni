@@ -50,7 +50,7 @@ export default function Org() {
         title: item.text + " | " + item.code + " | " + item.status,
         text: item.text,
         uid: item.uid,
-        key: item.org_code,
+        key: item.uid,
         org_code: item.org_code,
         code: item.code,
         parent: item.code_parent,
