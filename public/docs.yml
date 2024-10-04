@@ -194,7 +194,7 @@ paths:
   /api/v1/adm-app/analisa-lab:
     get:
       tags:
-        - analisa lab
+        - adm app
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
@@ -249,3 +249,279 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw39/order:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw49n/order-list:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+        - in: query
+          name: operation_activity
+          schema:
+            type: string
+        - in: query
+          name: description
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw29/notification:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw47/confirmation:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/zmm_r15/stock-material:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/zsd_sodo_period_sales_order:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"        
+
+  /api/v1/sap/zsd_sodo_pgi/sales-order:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: nomor_sales_order
+          schema:
+            type: string
+        - in: query
+          name: delivery_item
+          schema:
+            type: string
+        - in: query
+          name: nomor_material
+          schema:
+            type: string
+        - in: query
+          name: nomor_do
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"        
+
+  /api/v1/sap/mb25_reservasi:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: nomor_sales_order
+          schema:
+            type: string
+        - in: query
+          name: delivery_item
+          schema:
+            type: string
+        - in: query
+          name: nomor_material
+          schema:
+            type: string
+        - in: query
+          name: nomor_do
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"      
+
+  /api/v1/sap/plant:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: nomor_sales_order
+          schema:
+            type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"   
+
+  /api/v1/sap/equipment:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: nomor_sales_order
+          schema:
+            type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"  
+
+  /api/v1/sap/component_bom:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: nomor_sales_order
+          schema:
+            type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"        
