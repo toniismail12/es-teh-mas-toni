@@ -175,10 +175,10 @@ paths:
         "401":
           $ref: "#/components/responses/401"
 
-  /api/organization:
+  /api/v1/hc/organization:
     get:
       tags:
-        - organizations
+        - hc
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Limit"
