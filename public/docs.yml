@@ -704,6 +704,10 @@ paths:
           name: line_item_pr
           schema:
             type: string
+        - in: query
+          name: description
+          schema:
+            type: string
        
       responses:
         "200":
@@ -831,7 +835,7 @@ paths:
           description: Operation activity filter
           schema:
             type: string
-        - name: countet
+        - name: counter
           in: query
           required: false
           description: Counter value
@@ -990,6 +994,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
+       
         - name: reservation
           in: query
           required: false
@@ -1034,6 +1039,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
+        
         - name: plant_code
           in: query
           required: false
@@ -1078,6 +1084,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
+        
         - name: equipment
           in: query
           required: false
@@ -1110,6 +1117,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
+        
         - name: component
           in: query
           required: false
