@@ -526,11 +526,32 @@ paths:
 
   /api/v1/hc/organization-assignment:
     get:
+      summary: Get organization assignment data filtered by various parameters
+      description: Retrieve a list of organization assignment data filtered by badge, position, organization, cost center, employee group, and other related fields.
+      
       tags:
         - hc
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
+        - name: badge_uid
+          in: query
+          required: false
+          description: Badge UID filter
+          schema:
+            type: string
+        - name: badge
+          in: query
+          required: false
+          description: Badge number filter
+          schema:
+            type: string
+        - name: nama
+          in: query
+          required: false
+          description: Employee name filter
+          schema:
+            type: string
         - name: posisi
           in: query
           required: false
@@ -540,7 +561,7 @@ paths:
         - name: nama_posisi
           in: query
           required: false
-          description: Name of the position
+          description: Position name filter
           schema:
             type: string
         - name: parent_posisi
@@ -552,7 +573,7 @@ paths:
         - name: parent_posisi_description
           in: query
           required: false
-          description: Parent position description
+          description: Parent position description filter
           schema:
             type: string
         - name: jabatan
@@ -564,7 +585,7 @@ paths:
         - name: nama_jabatan
           in: query
           required: false
-          description: Name of the job title
+          description: Job title name filter
           schema:
             type: string
         - name: org_code
@@ -576,31 +597,31 @@ paths:
         - name: org_description
           in: query
           required: false
-          description: Organization description
+          description: Organization description filter
           schema:
             type: string
         - name: costcenter_code
           in: query
           required: false
-          description: Cost center code
+          description: Cost center code filter
           schema:
             type: string
         - name: costcenter_description
           in: query
           required: false
-          description: Cost center description
+          description: Cost center description filter
           schema:
             type: string
         - name: golongan
           in: query
           required: false
-          description: Golongan (group) filter
+          description: Grade filter
           schema:
             type: string
         - name: nama_golongan
           in: query
           required: false
-          description: Name of the golongan (group)
+          description: Grade name filter
           schema:
             type: string
         - name: employee_group
@@ -612,7 +633,7 @@ paths:
         - name: employee_group_description
           in: query
           required: false
-          description: Employee group description
+          description: Employee group description filter
           schema:
             type: string
         - name: area
@@ -624,19 +645,19 @@ paths:
         - name: area_description
           in: query
           required: false
-          description: Area description
+          description: Area description filter
           schema:
             type: string
         - name: sub_area
           in: query
           required: false
-          description: Sub area filter
+          description: Sub-area filter
           schema:
             type: string
         - name: sub_area_description
           in: query
           required: false
-          description: Sub area description
+          description: Sub-area description filter
           schema:
             type: string
         - name: contract_description
@@ -645,7 +666,6 @@ paths:
           description: Contract description filter
           schema:
             type: string
-
       responses:
         "200":
           $ref: "#/components/responses/200"
@@ -656,25 +676,80 @@ paths:
 
   /api/v1/adm-app/analisa-lab:
     get:
+      summary: Get lab analysis data filtered by various parameters
+      description: Retrieve a list of lab analysis data filtered by registration sample ID, date period, customer description, material description, plant, inspection method, sample, parameter, time, and shift.
+      
       tags:
         - adm app
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: nomor_sales_order
+        - name: id_regsample
+          in: query
+          required: false
+          description: Registration sample ID filter
           schema:
             type: string
-        - in: query
-          name: delivery_item
+        - name: date_period
+          in: query
+          required: false
+          description: Date period filter
           schema:
             type: string
-        - in: query
-          name: nomor_material
+            format: date-time
+        - name: desc_customer
+          in: query
+          required: false
+          description: Customer description filter
           schema:
             type: string
-        - in: query
-          name: nomor_do
+        - name: desc_material
+          in: query
+          required: false
+          description: Material description filter
+          schema:
+            type: string
+        - name: plant
+          in: query
+          required: false
+          description: Plant filter
+          schema:
+            type: string
+        - name: desc_plant
+          in: query
+          required: false
+          description: Plant description filter
+          schema:
+            type: string
+        - name: desc_inspmethod
+          in: query
+          required: false
+          description: Inspection method description filter
+          schema:
+            type: string
+        - name: desc_sample
+          in: query
+          required: false
+          description: Sample description filter
+          schema:
+            type: string
+        - name: desc_parameter
+          in: query
+          required: false
+          description: Parameter description filter
+          schema:
+            type: string
+        - name: time
+          in: query
+          required: false
+          description: Time filter
+          schema:
+            type: string
+            format: time
+        - name: shift
+          in: query
+          required: false
+          description: Shift filter
           schema:
             type: string
       responses:
@@ -817,6 +892,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
+        
         - name: order
           in: query
           required: false
@@ -1056,12 +1132,6 @@ paths:
           in: query
           required: false
           description: Plant type filter
-          schema:
-            type: string
-        - name: nomor_do
-          in: query
-          required: false
-          description: Delivery order number filter
           schema:
             type: string
        
