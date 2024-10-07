@@ -216,6 +216,192 @@ paths:
         "401":
           $ref: "#/components/responses/401"
 
+  /api/v1/hc/karyawan:
+    summary: Get karyawan (employee) details
+    description: Retrieve the list of karyawan (employees) with filters for badge, name, grade, area, and other details.
+    get:
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: badge_uid
+          in: query
+          required: false
+          description: Unique ID for the badge
+          schema:
+            type: string
+        - name: badge
+          in: query
+          required: false
+          description: Badge number filter
+          schema:
+            type: string
+        - name: nama
+          in: query
+          required: false
+          description: Name of the employee
+          schema:
+            type: string
+        - name: emp_grade
+          in: query
+          required: false
+          description: Employee grade
+          schema:
+            type: string
+        - name: emp_grade_title
+          in: query
+          required: false
+          description: Employee grade title
+          schema:
+            type: string
+        - name: area
+          in: query
+          required: false
+          description: Area filter
+          schema:
+            type: string
+        - name: area_title
+          in: query
+          required: false
+          description: Area title
+          schema:
+            type: string
+        - name: sub_area
+          in: query
+          required: false
+          description: Sub-area filter
+          schema:
+            type: string
+        - name: sub_area_title
+          in: query
+          required: false
+          description: Sub-area title
+          schema:
+            type: string
+        - name: contract
+          in: query
+          required: false
+          description: Contract type filter
+          schema:
+            type: string
+        - name: pendidikan
+          in: query
+          required: false
+          description: Education level
+          schema:
+            type: string
+        - name: employee_status
+          in: query
+          required: false
+          description: Employee status
+          schema:
+            type: string
+        - name: pos_grade
+          in: query
+          required: false
+          description: Position grade filter
+          schema:
+            type: string
+        - name: pos_kategori
+          in: query
+          required: false
+          description: Position category filter
+          schema:
+            type: string
+        - name: pos_level
+          in: query
+          required: false
+          description: Position level filter
+          schema:
+            type: string
+        - name: sup_emp_no
+          in: query
+          required: false
+          description: Supervisor employee number
+          schema:
+            type: string
+        - name: org_id
+          in: query
+          required: false
+          description: Organization ID
+          schema:
+            type: string
+        - name: org_title
+          in: query
+          required: false
+          description: Organization title
+          schema:
+            type: string
+        - name: dept_id
+          in: query
+          required: false
+          description: Department ID
+          schema:
+            type: string
+        - name: dept_title
+          in: query
+          required: false
+          description: Department title
+          schema:
+            type: string
+          example: "teknologi informasi"
+        - name: komp_id
+          in: query
+          required: false
+          description: Company ID
+          schema:
+            type: string
+        - name: komp_title
+          in: query
+          required: false
+          description: Company title
+          schema:
+            type: string
+        - name: dir_id
+          in: query
+          required: false
+          description: Directorate ID
+          schema:
+            type: string
+        - name: dir_title
+          in: query
+          required: false
+          description: Directorate title
+          schema:
+            type: string
+        - name: bag_id
+          in: query
+          required: false
+          description: Division ID
+          schema:
+            type: string
+        - name: bag_title
+          in: query
+          required: false
+          description: Division title
+          schema:
+            type: string
+        - name: seksi_id
+          in: query
+          required: false
+          description: Section ID
+          schema:
+            type: string
+        - name: seksi_title
+          in: query
+          required: false
+          description: Section title
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
   /api/v1/hc/education:
     get:
       tags:
@@ -590,12 +776,22 @@ paths:
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: order_no
+        - name: order
+          in: query
+          required: false
+          description: Order filter
           schema:
             type: string
-        - in: query
-          name: notification_no
+        - name: notification
+          in: query
+          required: false
+          description: Notification number
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: false
+          description: Description of the notification
           schema:
             type: string
        
@@ -608,18 +804,43 @@ paths:
           $ref: "#/components/responses/401"
 
   /api/v1/sap/iw47/confirmation:
+      
     get:
+      summary: Get IW47 confirmations
+      description: Retrieve a list of IW47 SAP confirmations with filters for order, confirmation number, operation activity, counter, and confirmation text.
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: order_no
+        - name: order
+          in: query
+          required: false
+          description: Order number filter
           schema:
             type: string
-        - in: query
-          name: notification_no
+        - name: confirmation
+          in: query
+          required: false
+          description: Confirmation number
+          schema:
+            type: string
+        - name: operation_activity
+          in: query
+          required: false
+          description: Operation activity filter
+          schema:
+            type: string
+        - name: countet
+          in: query
+          required: false
+          description: Counter value
+          schema:
+            type: string
+        - name: confirmation_text
+          in: query
+          required: false
+          description: Confirmation text filter
           schema:
             type: string
        
@@ -633,17 +854,36 @@ paths:
 
   /api/v1/sap/zmm_r15/stock-material:
     get:
+      summary: Get stock material data with material, storage location, valuation type, and description
+      description: Retrieve a list of stock material data filtered by material, storage location, valuation type, and description.
+      
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: order_no
+        - name: material
+          in: query
+          required: false
+          description: Material filter
           schema:
             type: string
-        - in: query
-          name: notification_no
+        - name: storage_location
+          in: query
+          required: false
+          description: Storage location filter
+          schema:
+            type: string
+        - name: val_type
+          in: query
+          required: false
+          description: Valuation type filter
+          schema:
+            type: string
+        - name: deskripsi
+          in: query
+          required: false
+          description: Material description filter
           schema:
             type: string
        
@@ -655,51 +895,38 @@ paths:
         "401":
           $ref: "#/components/responses/401"
 
-  /api/v1/sap/zsd-sodo-period-sales-order:
+  /api/v1/sap/zsd_sodo_period/sales-order:
     get:
+      
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: order_no
-          schema:
-            type: string
-        - in: query
-          name: notification_no
-          schema:
-            type: string
-       
-      responses:
-        "200":
-          $ref: "#/components/responses/200"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"        
 
-  /api/v1/sap/zsd-sodo-pgi/sales-order:
-    get:
-      tags:
-        - sap
-      parameters:
-        - $ref: "#/components/parameters/Page"
-        - $ref: "#/components/parameters/Size"
-        - in: query
-          name: nomor_sales_order
+        - name: nomor_sales_order
+          in: query
+          required: false
           schema:
             type: string
-        - in: query
-          name: delivery_item
+        - name: uid
+          in: query
+          required: false
           schema:
             type: string
-        - in: query
-          name: nomor_material
+        - name: nomor_material
+          in: query
+          required: false
           schema:
             type: string
-        - in: query
-          name: nomor_do
+        - name: nomor_do
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: deskripsi_material
+          in: query
+          required: false
           schema:
             type: string
        
@@ -709,29 +936,41 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "401":
-          $ref: "#/components/responses/401"        
+          $ref: "#/components/responses/401"
 
-  /api/v1/sap/mb25-reservasi:
+  /api/v1/sap/zsd_sodo_pgi/sales-order:
+      
     get:
+      summary: Get sales order data with delivery and material details
+      description: Retrieve a list of sales orders with filters for sales order number, delivery item, material number, and delivery order.
+      
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: nomor_sales_order
+        - name: nomor_sales_order
+          in: query
+          required: false
+          description: Sales order number filter
           schema:
             type: string
-        - in: query
-          name: delivery_item
+        - name: delivery_item
+          in: query
+          required: false
+          description: Delivery item filter
           schema:
             type: string
-        - in: query
-          name: nomor_material
+        - name: nomor_material
+          in: query
+          required: false
+          description: Material number filter
           schema:
             type: string
-        - in: query
-          name: nomor_do
+        - name: nomor_do
+          in: query
+          required: false
+          description: Delivery order number filter
           schema:
             type: string
        
@@ -741,68 +980,164 @@ paths:
         "400":
           $ref: "#/components/responses/400"
         "401":
-          $ref: "#/components/responses/401"      
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/mb25/reservasi:
+      
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: reservation
+          in: query
+          required: false
+          description: Reservation number filter
+          schema:
+            type: string
+        - name: material
+          in: query
+          required: false
+          description: Material number filter
+          schema:
+            type: string
+        - name: order_no
+          in: query
+          required: false
+          description: Sales order number filter
+          schema:
+            type: string
+        - name: material_description
+          in: query
+          required: false
+          description: Material description filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
 
   /api/v1/sap/plant:
+      
     get:
+      summary: Get plant data with plant code, description, type, and delivery order
+      description: Retrieve a list of plant data filtered by plant code, plant description, type, and delivery order number.
+      
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: nomor_sales_order
+        - name: plant_code
+          in: query
+          required: false
+          description: Plant code filter
           schema:
             type: string
-
+        - name: plant_desc
+          in: query
+          required: false
+          description: Plant description filter
+          schema:
+            type: string
+        - name: tipe
+          in: query
+          required: false
+          description: Plant type filter
+          schema:
+            type: string
+        - name: nomor_do
+          in: query
+          required: false
+          description: Delivery order number filter
+          schema:
+            type: string
+       
       responses:
         "200":
           $ref: "#/components/responses/200"
         "400":
           $ref: "#/components/responses/400"
         "401":
-          $ref: "#/components/responses/401"   
+          $ref: "#/components/responses/401"
 
   /api/v1/sap/equipment:
+      
     get:
+      summary: Get equipment data with equipment number and description
+      description: Retrieve a list of equipment data filtered by equipment number and description.
+      
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: nomor_sales_order
+        - name: equipment
+          in: query
+          required: false
+          description: Equipment number filter
           schema:
             type: string
-
+        - name: description
+          in: query
+          required: false
+          description: Equipment description filter
+          schema:
+            type: string
+       
       responses:
         "200":
           $ref: "#/components/responses/200"
         "400":
           $ref: "#/components/responses/400"
         "401":
-          $ref: "#/components/responses/401"  
+          $ref: "#/components/responses/401"
 
   /api/v1/sap/component-bom:
+      
     get:
+      summary: Get component BOM data with component, equipment number, and description
+      description: Retrieve a list of Bill of Materials (BOM) components filtered by component, equipment number, and equipment description.
+      
       tags:
         - sap
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Size"
-        - in: query
-          name: nomor_sales_order
+        - name: component
+          in: query
+          required: false
+          description: Component filter
           schema:
             type: string
-
+        - name: equipment_number
+          in: query
+          required: false
+          description: Equipment number filter
+          schema:
+            type: string
+        - name: equipment_description
+          in: query
+          required: false
+          description: Equipment description filter
+          schema:
+            type: string
+       
       responses:
         "200":
           $ref: "#/components/responses/200"
         "400":
           $ref: "#/components/responses/400"
         "401":
-          $ref: "#/components/responses/401"        
+          $ref: "#/components/responses/401"
   
+
   /api/admin/users:
     get:
       tags:
