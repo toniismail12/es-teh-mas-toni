@@ -1,12 +1,12 @@
 import { Main } from '@/layouts';
 import { useEffect, useState, useCallback } from 'react';
-import { GetOrg, DeleteOrg } from '@/controllers';
+import { GetOrg, DeleteOrg, UpdateOrgParent } from '@/controllers';
 import { Decode } from '@/utils';
 import Link from 'next/link';
+import { Select } from 'antd';
 
 export default function Org() {
     const [datas, setData] = useState([])
-    const [alldatas, setAllData] = useState([])
 
     // filter
     const [f_orgName, f_setOrgName] = useState("")
@@ -18,22 +18,17 @@ export default function Org() {
 
     const fetchData = useCallback(async (text, code, org_code, report_to, level, status) => {
 
+        setData([])
+
         const getTotal = await GetOrg(1, 1)
         const total = getTotal?.meta?.total;
 
-        const res = await GetOrg(1, total, text, code, org_code, report_to, level, status);
+        const res = await GetOrg(1, total, text, code, org_code, "", level, status, report_to);
 
         if (res !== 'error') {
             const resDecode = Decode(res.data);
             // console.log(resDecode)
             setData(resDecode)
-        }
-        const res2 = await GetOrg(1, total);
-
-        if (res2 !== 'error') {
-            const resDecode = Decode(res2.data);
-            // console.log(resDecode)
-            setAllData(resDecode)
         }
 
     }, []);
@@ -41,12 +36,6 @@ export default function Org() {
     useEffect(() => {
         fetchData(f_orgName, f_code, f_orgCode, f_reportTo, f_level, f_status);
     }, [fetchData, f_orgName, f_code, f_orgCode, f_reportTo, f_level, f_status]);
-
-    function generate12DigitInteger() {
-        const min = 100000000000; // Smallest 12-digit number
-        const max = 999999999999; // Largest 12-digit number
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 
     function RemoveOrg(item) {
         const cnf = confirm("Delete " + item.text + "?");
@@ -56,15 +45,13 @@ export default function Org() {
         }
     }
 
-    function ShowParent(code) {
-        var text = ""
-        
-        alldatas.filter((f)=>f.code === code).map((item)=>{
-            text=item.text
-        })
-
-        return text
+    async function updateUidParent(uid, code) {
+        await UpdateOrgParent(uid, code)
     }
+
+    const onChange2 = (value) => {
+        f_setReportTo(value)
+    };
 
     return (
         <Main>
@@ -89,7 +76,23 @@ export default function Org() {
                                     <input value={f_orgCode} onChange={e=>f_setOrgCode(e.target.value)} type="text" className="form-control" placeholder="search org code"/>
                                 </div>
                                 <div className="col-lg-2 mb-2">
-                                    <input value={f_reportTo} onChange={e=>f_setReportTo(e.target.value)} type="text" className="form-control" placeholder="search report to"/>
+                                    {/* <input value={f_reportTo} onChange={e=>f_setReportTo(e.target.value)} type="text" className="form-control" placeholder="search report to"/> */}
+                                    <Select
+                                        // getPopupContainer={(trigger) => document.getElementById('select-search2')}
+                                        style={{ width: '100%'}}
+                                        showSearch
+                                        allowClear
+                                        placeholder="search report to"
+                                        optionFilterProp="label"
+                                        onChange={onChange2}
+                                        // onSearch={onSearch2}
+                                        options={datas?.map((items)=>{
+                                            return {
+                                            "label":items.text+" - "+items.code,
+                                            "value":items.uid,
+                                            }
+                                        })}
+                                    />
                                 </div>
                                 <div className="col-lg-2 mb-2">
                                     <select value={f_level} onChange={e=>f_setLevel(e.target.value)} className='form-select'>
@@ -133,7 +136,7 @@ export default function Org() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {datas.map((item)=>{
+                                        {datas?.map((item)=>{
                                             return( 
                                                 <tr key={item.code}>
                                                     <td>
@@ -151,7 +154,7 @@ export default function Org() {
                                                     </td>
                                                     <td>
                                                         <div className="ms-3">
-                                                            <h6 className="fs-4 fw-semibold mb-0">{ShowParent(item.code_parent)}</h6>
+                                                            <h6 className="fs-4 fw-semibold mb-0">{item.text_parent}</h6>
                                                             <span className="fw-normal">{item.code_parent}</span>
                                                         </div>
                                                     </td>

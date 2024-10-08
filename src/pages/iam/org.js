@@ -13,8 +13,10 @@ export default function Org() {
   const [oldOrg, setOldOrg] = useState([])
 
   const [uid, setUid] = useState("")
+  const [uidParent, setUidParent] = useState("")
   const [orgName, setOrgName] = useState("")
   const [code, setCode] = useState("")
+  const [oldCode, setOldCode] = useState("")
   const [orgCode, setOrgCode] = useState("")
   const [reportTo, setReportTo] = useState("")
   const [status, setStatus] = useState("")
@@ -36,6 +38,8 @@ export default function Org() {
     setStatus(orgDetail.status)
     setLevel(orgDetail.level)
 
+    setOldCode(orgDetail.code)
+
     setShowModal("show")
   };
 
@@ -46,7 +50,7 @@ export default function Org() {
 
     // Populate the map with nodes
     data.forEach(item => {
-      nodeMap.set(item.code, {
+      nodeMap.set(item.uid, {
         title: item.text + " | " + item.code + " | " + item.status,
         text: item.text,
         uid: item.uid,
@@ -60,10 +64,12 @@ export default function Org() {
       });
     });
 
+    // console.log(data)
+
     // Create the tree structure
     data.forEach(item => {
-      const node = nodeMap.get(item.code);
-      const parentNode = nodeMap.get(item.code_parent);
+      const node = nodeMap.get(item.uid);
+      const parentNode = nodeMap.get(item.uid_parent);
 
       if (parentNode) {
         parentNode.children.push(node);
@@ -109,7 +115,7 @@ export default function Org() {
 
   const fetchDataOldOrg = useCallback(async (text) => {
 
-    const res = await GetOldOrg(1, 7, text);
+    const res = await GetOldOrg(1, 10, text);
 
     if (res !== 'error') {
       const resDecode = Decode(res.data);
@@ -166,11 +172,13 @@ export default function Org() {
 
   async function submitForm() {
 
-    const res = await SaveOrg(uid, orgName, "" + code, orgCode, reportTo, status, level)
+    const res = await SaveOrg(uid, orgName, "" + code, orgCode, reportTo, status, level, oldCode, uidParent)
     if (res !== "error") {
       fetchData()
       alert("success")
       setShowModal("")
+    } else {
+      window.location.reload();
     }
   }
 
@@ -193,9 +201,15 @@ export default function Org() {
   };
 
   const onChange2 = (value) => {
-    console.log(`selected ${value}`);
-    setReportTo(value)
-    
+    if (value !== undefined) {
+      const parts = value.split("*")
+      setReportTo(parts[0])
+      setUidParent(parts[1])
+
+    } else {
+      setReportTo("")
+      setUidParent("")
+    }
   };
   const onSearch2 = (value) => {
     console.log('search:', value);
@@ -206,7 +220,7 @@ export default function Org() {
       <div className="row">
         <div className='col-lg-12'>
           <button onClick={showForm} className="btn btn-primary fw-semibold py-8 me-3">
-            <i class="ti ti-plus"></i>
+            <i className="ti ti-plus"></i>
             Tambah Data
           </button>
           <Link href="/iam/table-org" onClick={showForm} className="btn btn-warning fw-semibold py-8 me-3">
@@ -343,7 +357,7 @@ export default function Org() {
                           options={datas?.map((items)=>{
                             return {
                               "label":items.text+" - "+items.code,
-                              "value":items.code,
+                              "value":items.code+"*"+items.uid,
                             }
                           })}
                         />

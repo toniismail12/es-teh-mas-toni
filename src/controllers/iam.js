@@ -1,6 +1,6 @@
 import { svc_iam } from "@/api";
 
-async function GetOrg(pages, limits, text, code, org_code, report_to, level, status) {
+async function GetOrg(pages, limits, text, code, org_code, report_to, level, status, uid_parent) {
 
     const config = {
         params: { 
@@ -12,6 +12,7 @@ async function GetOrg(pages, limits, text, code, org_code, report_to, level, sta
             code_parent: report_to,
             level: level,
             status: status,
+            uid_parent: uid_parent,
         },
     }
 
@@ -50,20 +51,39 @@ async function GetOldOrg(pages, limits, text, org_code) {
 
 }
 
-async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
+async function SaveOrg(uid, orgName, codes, orgCode, parent, status, level, oldCode, uid_parents) {
 
     const data = {
         uid: uid,
         text: orgName,
-        code: code,
+        code: codes,
         org_code: orgCode,
         org_code_parent: parent,
         code_parent: parent,
+        uid_parent: uid_parents,
         status: status,
         level: parseInt(level),
     }
 
     // console.log(data)
+    if (uid) {
+
+        // berguna ketika update code
+        const dataParent = {
+            "old_code": oldCode,
+            "new_code": codes,
+        }
+
+        try {
+            const res = await svc_iam.post("/admin/update-parent", dataParent);
+            // console.log('Response:', res);
+    
+        } catch (error) {
+            console.error('Error:', error);
+            alert("error update parent")
+            return "error"
+        }
+    }
 
     try {
         const res = await svc_iam.post("/admin/organization", data);
@@ -72,11 +92,29 @@ async function SaveOrg(uid, orgName, code, orgCode, parent, status, level) {
 
     } catch (error) {
         console.error('Error:', error);
-        alert("error")
+        alert("error update data")
         return "error"
     }
 
-    return []
+}
+
+async function UpdateOrgParent(uid, code) {
+
+    const data = {
+        uid_parent: uid,
+        code_parent: code,
+    }
+
+    try {
+        const res = await svc_iam.post("/api/update-uid-parent", data);
+        // console.log('Response:', res);
+        return res
+
+    } catch (error) {
+        console.error('Error:', error);
+        // alert("error update data")
+        return "error"
+    }
 
 }
 
@@ -127,4 +165,4 @@ async function GetEmp(pages, limits, nama, badge, komp_id, komp_title, dept_id, 
 }
 
 export default GetOrg
-export { GetOrg, SaveOrg, DeleteOrg, GetEmp, GetOldOrg }
+export { GetOrg, SaveOrg, DeleteOrg, GetEmp, GetOldOrg, UpdateOrgParent }
