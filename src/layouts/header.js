@@ -77,11 +77,57 @@ export default function Header() {
 
                                                                 <div className="d-inline-block">
                                                                     <h6 className="mb-1 fw-semibold fs-3">
-                                                                        Email App
+                                                                        Service Email
                                                                     </h6>
                                                                     
                                                                 </div>
                                                             </Link>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <li className="nav-item dropdown hover-dd d-none d-lg-block">
+                            <Link
+                                className="nav-link"
+                                href="javascript:void(0)"
+                                data-bs-toggle="dropdown"
+                            >
+                                Chats
+                                <span className="mt-1">
+                                    <i className="ti ti-chevron-down fs-3" />
+                                </span>
+                            </Link>
+
+                            <div className="dropdown-menu dropdown-menu-animate-up py-0">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="ps-7 pt-7">
+                                            <div className="border-bottom">
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <div className="position-relative">
+                                                            <Link
+                                                                href="/chat-petani"
+                                                                className="d-flex align-items-center pb-9 position-relative"
+                                                            >
+
+                                                                <div className="d-inline-block">
+                                                                    <h6 className="mb-1 fw-semibold fs-3">
+                                                                        Chat Petani
+                                                                    </h6>
+                                                                    
+                                                                </div>
+                                                            </Link> 
+
                                                         </div>
                                                     </div>
 
