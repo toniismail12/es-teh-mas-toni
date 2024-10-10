@@ -34,3 +34,7 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-select-dropdown {
+  z-index: 1050 !important;  /* Ensure it appears above modal */
+}

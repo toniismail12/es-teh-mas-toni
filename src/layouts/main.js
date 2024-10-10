@@ -9,22 +9,11 @@ export default function Main({ children }) {
     <>
       <div id="main-wrapper">
         {/* Sidebar Start */}
-        <aside className="left-sidebar with-vertical">
+
+        {/* <aside className="left-sidebar with-vertical">
           <div>
-            {/* ---------------------------------- */}
-            {/* Start Vertical Layout Sidebar */}
-            {/* ---------------------------------- */}
+            
             <div className="brand-logo d-flex align-items-center justify-content-between">
-              {/* <a href="#" className="text-nowrap logo-img">
-                <Image
-                  src="/assets/images/logos/dark-logo.svg"
-                  className="dark-logo"
-                  width={200}
-                  height={40}
-                  alt="Logo-Dark"
-                />
-                
-              </a> */}
 
               <h5>Portal Services</h5>
 
@@ -68,11 +57,10 @@ export default function Main({ children }) {
                 </button>
               </div>
             </div>
-            {/* ---------------------------------- */}
-            {/* Start Vertical Layout Sidebar */}
-            {/* ---------------------------------- */}
+
           </div>
-        </aside>
+        </aside> */}
+
         {/*  Sidebar End */}
         <div className="page-wrapper">
 
@@ -82,7 +70,9 @@ export default function Main({ children }) {
 
           <div className="body-wrapper">
             <div className="container-fluid">
+
               <div className="row">
+
                 <div className="col-lg-12 d-flex align-items-stretch">
                   <div className="card w-100 bg-primary-subtle overflow-hidden shadow-none">
                     <div className="card-body position-relative">
@@ -113,7 +103,9 @@ export default function Main({ children }) {
                     </div>
                   </div>
                 </div>
+                
               </div>
+
               {children}
             </div>
           </div>

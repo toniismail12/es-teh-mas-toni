@@ -1,0 +1,54 @@
+stages:
+  - build-and-publish
+  - bridge
+
+variables:
+  IMAGE_NAME: web-services
+  DOCKER_DRIVER: overlay2
+  REGISTRY_URL: $REGISTRY_URL
+  REGISTRY_USER: $REGISTRY_LOGIN_USER
+  REGISTRY_PASS: $REGISTRY_LOGIN_PASS
+  ENV_FILE: $ENV_FILE
+  ENV_FILE_DEV: $ENV_FILE_DEV
+
+build-and-publish:
+  tags:
+    - build-publish
+  only:
+    - master
+    - dev
+  stage: build-and-publish
+  script:
+    - >
+      if [ "$CI_COMMIT_BRANCH" == "master" ]; then 
+      cp $ENV_FILE .env; 
+      else 
+      cp $ENV_FILE_DEV .env; 
+      fi
+    - docker build -t ${IMAGE_NAME} . -f Dockerfile
+    - echo "$REGISTRY_PASS" | docker login -u "$REGISTRY_USER" "$REGISTRY_URL" --password-stdin
+    - >
+      if [ "$CI_COMMIT_BRANCH" == "master" ]; then 
+      docker tag "${IMAGE_NAME}:latest" "${REGISTRY_URL}/${IMAGE_NAME}:latest"; 
+      else 
+      docker tag "${IMAGE_NAME}:latest" "${REGISTRY_URL}/${IMAGE_NAME}-dev:latest"; 
+      fi
+    - >
+      if [ "$CI_COMMIT_BRANCH" == "master" ]; then 
+      docker push "${REGISTRY_URL}/${IMAGE_NAME}:latest"; 
+      else docker push "${REGISTRY_URL}/${IMAGE_NAME}-dev:latest"; 
+      fi
+
+bridging-to-another-pipeline:
+  stage: bridge
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: always
+  needs: 
+    - build-and-publish
+  trigger:
+    project: service-service/infra-things
+    branch: master
+    strategy: depend

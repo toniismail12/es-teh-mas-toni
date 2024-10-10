@@ -1,0 +1,1496 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: API SERVICES
+  description: API Documentation
+  
+servers:
+
+  - url: http://10.10.2.189:62799
+    description: API PUSRI Dev
+  - url: http://10.10.2.189:62798
+    description: API Pusri Prod
+  - url: https://gwkong.pusri.co.id/service-iam-dev
+    description: API ORG Dev
+  - url: http://10.10.2.189:62714
+    description: API Send OTP WA Dev
+  - url: http://10.10.2.189:62614
+    description: API Send OTP WA Prod
+  - url: http://10.10.2.189:62821
+    description: API Encrypt Decrypt
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: "Page number for pagination (default: 1)"
+      schema:
+        type: integer
+
+    Limit:
+      name: limit
+      in: query
+      description: "Number of items to return per page (default: 10)"
+      schema:
+        type: integer
+
+    Size:
+      name: size
+      in: query
+      description: "Number of items to return per page"
+      schema:
+        type: integer
+
+  responses:
+    "200":
+      description: OK
+    "400":
+      description: "Bad Request"
+    "401":
+      description: Unauthorized
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  /api/login:
+    post:
+      tags:
+        - auth
+      description: This endpoint is used for login and get token, and it is accessible to all roles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /send-otp:
+    post:
+      tags:
+        - kode otp
+      description: This endpoint is used for send kode otp via wa, and it is accessible to all roles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                badge:
+                  type: string
+                name:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /verify-otp:
+    post:
+      tags:
+        - kode otp
+      description: This endpoint is used for verify kode, and it is accessible to all roles.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                kode:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/encrypt:
+    post:
+      tags:
+        - encrypt - decrypt
+      description: This endpoint is used for encrypt text, and it is accessible user role registered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/decrypt:
+    post:
+      tags:
+        - encrypt - decrypt
+      description: This endpoint is used for decrypt text, and it is accessible user role registered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                key:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/hc/organization:
+    get:
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - in: query
+          name: text
+          schema:
+            type: string
+        - in: query
+          name: code
+          schema:
+            type: string
+        - in: query
+          name: org_code
+          schema:
+            type: string
+        - in: query
+          name: code_parent
+          schema:
+            type: string
+        - in: query
+          name: level
+          schema:
+            type: string
+          description: "1 Direktorat, 2 Kompartemen, 3 Departemen"
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: "active, in-active"
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/hc/karyawan:
+    summary: Get karyawan (employee) details
+    description: Retrieve the list of karyawan (employees) with filters for badge, name, grade, area, and other details.
+    get:
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: badge_uid
+          in: query
+          required: false
+          description: Unique ID for the badge
+          schema:
+            type: string
+        - name: badge
+          in: query
+          required: false
+          description: Badge number filter
+          schema:
+            type: string
+        - name: nama
+          in: query
+          required: false
+          description: Name of the employee
+          schema:
+            type: string
+        - name: emp_grade
+          in: query
+          required: false
+          description: Employee grade
+          schema:
+            type: string
+        - name: emp_grade_title
+          in: query
+          required: false
+          description: Employee grade title
+          schema:
+            type: string
+        - name: area
+          in: query
+          required: false
+          description: Area filter
+          schema:
+            type: string
+        - name: area_title
+          in: query
+          required: false
+          description: Area title
+          schema:
+            type: string
+        - name: sub_area
+          in: query
+          required: false
+          description: Sub-area filter
+          schema:
+            type: string
+        - name: sub_area_title
+          in: query
+          required: false
+          description: Sub-area title
+          schema:
+            type: string
+        - name: contract
+          in: query
+          required: false
+          description: Contract type filter
+          schema:
+            type: string
+        - name: pendidikan
+          in: query
+          required: false
+          description: Education level
+          schema:
+            type: string
+        - name: employee_status
+          in: query
+          required: false
+          description: Employee status
+          schema:
+            type: string
+        - name: pos_grade
+          in: query
+          required: false
+          description: Position grade filter
+          schema:
+            type: string
+        - name: pos_kategori
+          in: query
+          required: false
+          description: Position category filter
+          schema:
+            type: string
+        - name: pos_level
+          in: query
+          required: false
+          description: Position level filter
+          schema:
+            type: string
+        - name: sup_emp_no
+          in: query
+          required: false
+          description: Supervisor employee number
+          schema:
+            type: string
+        - name: org_id
+          in: query
+          required: false
+          description: Organization ID
+          schema:
+            type: string
+        - name: org_title
+          in: query
+          required: false
+          description: Organization title
+          schema:
+            type: string
+        - name: dept_id
+          in: query
+          required: false
+          description: Department ID
+          schema:
+            type: string
+        - name: dept_title
+          in: query
+          required: false
+          description: Department title
+          schema:
+            type: string
+          example: "teknologi informasi"
+        - name: komp_id
+          in: query
+          required: false
+          description: Company ID
+          schema:
+            type: string
+        - name: komp_title
+          in: query
+          required: false
+          description: Company title
+          schema:
+            type: string
+        - name: dir_id
+          in: query
+          required: false
+          description: Directorate ID
+          schema:
+            type: string
+        - name: dir_title
+          in: query
+          required: false
+          description: Directorate title
+          schema:
+            type: string
+        - name: bag_id
+          in: query
+          required: false
+          description: Division ID
+          schema:
+            type: string
+        - name: bag_title
+          in: query
+          required: false
+          description: Division title
+          schema:
+            type: string
+        - name: seksi_id
+          in: query
+          required: false
+          description: Section ID
+          schema:
+            type: string
+        - name: seksi_title
+          in: query
+          required: false
+          description: Section title
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/hc/education:
+    get:
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: badge_uid
+          schema:
+            type: string
+        - in: query
+          name: badge
+          schema:
+            type: string
+        - in: query
+          name: nama
+          schema:
+            type: string
+        - in: query
+          name: education_level
+          schema:
+            type: string
+        - in: query
+          name: education_description
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/hc/family:
+    get:
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: badge_uid
+          schema:
+            type: string
+        - in: query
+          name: badge
+          schema:
+            type: string
+        - in: query
+          name: nama_user
+          schema:
+            type: string
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: relasi_description
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/hc/position:
+    get:
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: position
+          schema:
+            type: string
+        - in: query
+          name: pos_title
+          schema:
+            type: string
+        - in: query
+          name: manager_pos
+          schema:
+            type: string
+        - in: query
+          name: manager_title
+          schema:
+            type: string
+        - in: query
+          name: kategori_jabatan
+          schema:
+            type: string
+        - in: query
+          name: org_unit
+          schema:
+            type: string
+        - in: query
+          name: org_unit_desc
+          schema:
+            type: string
+        - in: query
+          name: costcenter
+          schema:
+            type: string
+        - in: query
+          name: costcenter_desc
+          schema:
+            type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/hc/organization-assignment:
+    get:
+      summary: Get organization assignment data filtered by various parameters
+      description: Retrieve a list of organization assignment data filtered by badge, position, organization, cost center, employee group, and other related fields.
+      
+      tags:
+        - hc
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: badge_uid
+          in: query
+          required: false
+          description: Badge UID filter
+          schema:
+            type: string
+        - name: badge
+          in: query
+          required: false
+          description: Badge number filter
+          schema:
+            type: string
+        - name: nama
+          in: query
+          required: false
+          description: Employee name filter
+          schema:
+            type: string
+        - name: posisi
+          in: query
+          required: false
+          description: Position filter
+          schema:
+            type: string
+        - name: nama_posisi
+          in: query
+          required: false
+          description: Position name filter
+          schema:
+            type: string
+        - name: parent_posisi
+          in: query
+          required: false
+          description: Parent position filter
+          schema:
+            type: string
+        - name: parent_posisi_description
+          in: query
+          required: false
+          description: Parent position description filter
+          schema:
+            type: string
+        - name: jabatan
+          in: query
+          required: false
+          description: Job title filter
+          schema:
+            type: string
+        - name: nama_jabatan
+          in: query
+          required: false
+          description: Job title name filter
+          schema:
+            type: string
+        - name: org_code
+          in: query
+          required: false
+          description: Organization code filter
+          schema:
+            type: string
+        - name: org_description
+          in: query
+          required: false
+          description: Organization description filter
+          schema:
+            type: string
+        - name: costcenter_code
+          in: query
+          required: false
+          description: Cost center code filter
+          schema:
+            type: string
+        - name: costcenter_description
+          in: query
+          required: false
+          description: Cost center description filter
+          schema:
+            type: string
+        - name: golongan
+          in: query
+          required: false
+          description: Grade filter
+          schema:
+            type: string
+        - name: nama_golongan
+          in: query
+          required: false
+          description: Grade name filter
+          schema:
+            type: string
+        - name: employee_group
+          in: query
+          required: false
+          description: Employee group filter
+          schema:
+            type: string
+        - name: employee_group_description
+          in: query
+          required: false
+          description: Employee group description filter
+          schema:
+            type: string
+        - name: area
+          in: query
+          required: false
+          description: Area filter
+          schema:
+            type: string
+        - name: area_description
+          in: query
+          required: false
+          description: Area description filter
+          schema:
+            type: string
+        - name: sub_area
+          in: query
+          required: false
+          description: Sub-area filter
+          schema:
+            type: string
+        - name: sub_area_description
+          in: query
+          required: false
+          description: Sub-area description filter
+          schema:
+            type: string
+        - name: contract_description
+          in: query
+          required: false
+          description: Contract description filter
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/adm-app/analisa-lab:
+    get:
+      summary: Get lab analysis data filtered by various parameters
+      description: Retrieve a list of lab analysis data filtered by registration sample ID, date period, customer description, material description, plant, inspection method, sample, parameter, time, and shift.
+      
+      tags:
+        - adm app
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: id_regsample
+          in: query
+          required: false
+          description: Registration sample ID filter
+          schema:
+            type: string
+        - name: date_period
+          in: query
+          required: false
+          description: Date period filter
+          schema:
+            type: string
+            format: date-time
+        - name: desc_customer
+          in: query
+          required: false
+          description: Customer description filter
+          schema:
+            type: string
+        - name: desc_material
+          in: query
+          required: false
+          description: Material description filter
+          schema:
+            type: string
+        - name: plant
+          in: query
+          required: false
+          description: Plant filter
+          schema:
+            type: string
+        - name: desc_plant
+          in: query
+          required: false
+          description: Plant description filter
+          schema:
+            type: string
+        - name: desc_inspmethod
+          in: query
+          required: false
+          description: Inspection method description filter
+          schema:
+            type: string
+        - name: desc_sample
+          in: query
+          required: false
+          description: Sample description filter
+          schema:
+            type: string
+        - name: desc_parameter
+          in: query
+          required: false
+          description: Parameter description filter
+          schema:
+            type: string
+        - name: time
+          in: query
+          required: false
+          description: Time filter
+          schema:
+            type: string
+            format: time
+        - name: shift
+          in: query
+          required: false
+          description: Shift filter
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+  
+  /api/v1/sap/zmm_r21/purchasing:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: material_no
+          schema:
+            type: string
+        - in: query
+          name: no_pr
+          schema:
+            type: string
+        - in: query
+          name: line_item_pr
+          schema:
+            type: string
+        - in: query
+          name: description
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw39/order:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw49n/order-list:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - in: query
+          name: order_no
+          schema:
+            type: string
+        - in: query
+          name: notification_no
+          schema:
+            type: string
+        - in: query
+          name: operation_activity
+          schema:
+            type: string
+        - in: query
+          name: description
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw29/notification:
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: order
+          in: query
+          required: false
+          description: Order filter
+          schema:
+            type: string
+        - name: notification
+          in: query
+          required: false
+          description: Notification number
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: false
+          description: Description of the notification
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/iw47/confirmation:
+      
+    get:
+      summary: Get IW47 confirmations
+      description: Retrieve a list of IW47 SAP confirmations with filters for order, confirmation number, operation activity, counter, and confirmation text.
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        
+        - name: order
+          in: query
+          required: false
+          description: Order number filter
+          schema:
+            type: string
+        - name: confirmation
+          in: query
+          required: false
+          description: Confirmation number
+          schema:
+            type: string
+        - name: operation_activity
+          in: query
+          required: false
+          description: Operation activity filter
+          schema:
+            type: string
+        - name: counter
+          in: query
+          required: false
+          description: Counter value
+          schema:
+            type: string
+        - name: confirmation_text
+          in: query
+          required: false
+          description: Confirmation text filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/zmm_r15/stock-material:
+    get:
+      summary: Get stock material data with material, storage location, valuation type, and description
+      description: Retrieve a list of stock material data filtered by material, storage location, valuation type, and description.
+      
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: material
+          in: query
+          required: false
+          description: Material filter
+          schema:
+            type: string
+        - name: storage_location
+          in: query
+          required: false
+          description: Storage location filter
+          schema:
+            type: string
+        - name: val_type
+          in: query
+          required: false
+          description: Valuation type filter
+          schema:
+            type: string
+        - name: deskripsi
+          in: query
+          required: false
+          description: Material description filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/zsd_sodo_period/sales-order:
+    get:
+      
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+
+        - name: nomor_sales_order
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: uid
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nomor_material
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nomor_do
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: deskripsi_material
+          in: query
+          required: false
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/zsd_sodo_pgi/sales-order:
+      
+    get:
+      summary: Get sales order data with delivery and material details
+      description: Retrieve a list of sales orders with filters for sales order number, delivery item, material number, and delivery order.
+      
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: nomor_sales_order
+          in: query
+          required: false
+          description: Sales order number filter
+          schema:
+            type: string
+        - name: delivery_item
+          in: query
+          required: false
+          description: Delivery item filter
+          schema:
+            type: string
+        - name: nomor_material
+          in: query
+          required: false
+          description: Material number filter
+          schema:
+            type: string
+        - name: nomor_do
+          in: query
+          required: false
+          description: Delivery order number filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/mb25/reservasi:
+      
+    get:
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+       
+        - name: reservation
+          in: query
+          required: false
+          description: Reservation number filter
+          schema:
+            type: string
+        - name: material
+          in: query
+          required: false
+          description: Material number filter
+          schema:
+            type: string
+        - name: order_no
+          in: query
+          required: false
+          description: Sales order number filter
+          schema:
+            type: string
+        - name: material_description
+          in: query
+          required: false
+          description: Material description filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/plant:
+      
+    get:
+      summary: Get plant data with plant code, description, type, and delivery order
+      description: Retrieve a list of plant data filtered by plant code, plant description, type, and delivery order number.
+      
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        
+        - name: plant_code
+          in: query
+          required: false
+          description: Plant code filter
+          schema:
+            type: string
+        - name: plant_desc
+          in: query
+          required: false
+          description: Plant description filter
+          schema:
+            type: string
+        - name: tipe
+          in: query
+          required: false
+          description: Plant type filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/equipment:
+      
+    get:
+      summary: Get equipment data with equipment number and description
+      description: Retrieve a list of equipment data filtered by equipment number and description.
+      
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        
+        - name: equipment
+          in: query
+          required: false
+          description: Equipment number filter
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: false
+          description: Equipment description filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/sap/component-bom:
+      
+    get:
+      summary: Get component BOM data with component, equipment number, and description
+      description: Retrieve a list of Bill of Materials (BOM) components filtered by component, equipment number, and equipment description.
+      
+      tags:
+        - sap
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        
+        - name: component
+          in: query
+          required: false
+          description: Component filter
+          schema:
+            type: string
+        - name: equipment_number
+          in: query
+          required: false
+          description: Equipment number filter
+          schema:
+            type: string
+        - name: equipment_description
+          in: query
+          required: false
+          description: Equipment description filter
+          schema:
+            type: string
+       
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+  
+
+  /api/admin/users:
+    get:
+      tags:
+        - admin users
+     
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+    post:
+      tags:
+        - admin users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                roleUID:
+                  type: string
+                domain:
+                  type: string
+                enforcePasswordExpiration:
+                  type: boolean
+                expirationDate:
+                  type: string
+                isDevelopment:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+    put:
+      tags:
+        - admin users
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: The unique identifier of the user
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                Permission:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+    
+    delete:
+      tags:
+        - admin users
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: The unique identifier of the user
+          schema:
+            type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+  
+  /api/admin/role:
+    get:
+      tags:
+        - admin role
+     
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+    post:
+      tags:
+        - admin role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                Permissions:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+    put:
+      tags:
+        - admin role
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: The unique identifier
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                Permission:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+    
+    delete:
+      tags:
+        - admin role
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: The unique identifier
+          schema:
+            type: string
+            
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/admin/permissions:
+    get:
+      tags:
+        - admin permissions
+     
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+    post:
+      tags:
+        - admin permissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                path:
+                  type: string
+                method:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+    put:
+      tags:
+        - admin permissions
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: The unique identifier
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                path:
+                  type: string
+                method:
+                  type: string
+
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+    
+    delete:
+      tags:
+        - admin permissions
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: The unique identifier
+          schema:
+            type: string
+            
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"

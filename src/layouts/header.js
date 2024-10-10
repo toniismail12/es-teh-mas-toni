@@ -1,16 +1,17 @@
 import React from 'react'
 import Image from "next/image";
+import Link from "next/link"
 
 export default function Header() {
     return (
         <header className="topbar">
-            <div className="with-vertical">
+            <div className="with-horizontal">
                 {/* ---------------------------------- */}
                 {/* Start Vertical Layout Header */}
                 {/* ---------------------------------- */}
                 <nav className="navbar navbar-expand-lg p-0">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <a
                                 className="nav-link sidebartoggler nav-icon-hover ms-n3"
                                 id="headerCollapse"
@@ -18,15 +19,26 @@ export default function Header() {
                             >
                                 <i className="ti ti-menu-2" />
                             </a>
-                        </li>
+                        </li> */}
 
                     </ul>
                     <ul className="navbar-nav quick-links d-none d-lg-flex">
                         {/* ------------------------------- */}
                         {/* start apps Dropdown */}
                         {/* ------------------------------- */}
+                        <li className="nav-item d-none d-lg-block">
+
+                            <Link
+                                className="nav-link"
+                                href="/"
+                                data-bs-toggle="dropdown"
+                            >
+                                Home
+                            </Link>
+
+                        </li>
                         <li className="nav-item dropdown hover-dd d-none d-lg-block">
-                            <a
+                            <Link
                                 className="nav-link"
                                 href="javascript:void(0)"
                                 data-bs-toggle="dropdown"
@@ -35,7 +47,7 @@ export default function Header() {
                                 <span className="mt-1">
                                     <i className="ti ti-chevron-down fs-3" />
                                 </span>
-                            </a>
+                            </Link>
 
                             <div className="dropdown-menu dropdown-menu-animate-up py-0">
                                 <div className="row">
@@ -45,44 +57,77 @@ export default function Header() {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="position-relative">
-                                                            <a
-                                                                href="../main/app-chat.html"
+                                                            <Link
+                                                                href="/iam/org"
                                                                 className="d-flex align-items-center pb-9 position-relative"
                                                             >
 
                                                                 <div className="d-inline-block">
                                                                     <h6 className="mb-1 fw-semibold fs-3">
-                                                                        Chat Application
+                                                                        Organization
                                                                     </h6>
                                                                     
                                                                 </div>
-                                                            </a> 
+                                                            </Link> 
 
-                                                            <a
-                                                                href="../main/app-email.html"
+                                                            <Link
+                                                                href="#"
                                                                 className="d-flex align-items-center pb-9 position-relative"
                                                             >
 
                                                                 <div className="d-inline-block">
                                                                     <h6 className="mb-1 fw-semibold fs-3">
-                                                                        IAM App
+                                                                        Service Email
                                                                     </h6>
                                                                     
                                                                 </div>
-                                                            </a>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
 
-                                                            <a
-                                                                href="../main/app-email.html"
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <li className="nav-item dropdown hover-dd d-none d-lg-block">
+                            <Link
+                                className="nav-link"
+                                href="javascript:void(0)"
+                                data-bs-toggle="dropdown"
+                            >
+                                Chats
+                                <span className="mt-1">
+                                    <i className="ti ti-chevron-down fs-3" />
+                                </span>
+                            </Link>
+
+                            <div className="dropdown-menu dropdown-menu-animate-up py-0">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="ps-7 pt-7">
+                                            <div className="border-bottom">
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <div className="position-relative">
+                                                            <Link
+                                                                href="/chat-petani"
                                                                 className="d-flex align-items-center pb-9 position-relative"
                                                             >
 
                                                                 <div className="d-inline-block">
                                                                     <h6 className="mb-1 fw-semibold fs-3">
-                                                                        Email App
+                                                                        Chat Petani
                                                                     </h6>
                                                                     
                                                                 </div>
-                                                            </a>
+                                                            </Link> 
+
                                                         </div>
                                                     </div>
 
