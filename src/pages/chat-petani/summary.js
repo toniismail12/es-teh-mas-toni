@@ -71,17 +71,17 @@ export default function ChatSummary({ name, chat, load }) {
             <table className='table table-bordered'>
               <thead>
                 <tr>
-                  <th>Parameter</th>
-                  <th>Value</th>
+                {Object?.keys(chat)?.map((key) => (
+                  <th key={key}>{key}</th>
+                ))}
                 </tr>
               </thead>
               <tbody>
-              {Object?.entries(chat)?.map(([key, value]) => (
-                <tr key={key}>
-                  <td>{key}</td>
-                  <td>{value}</td>
-                </tr>
-              ))}
+                <tr>
+                  {Object?.values(chat)?.map((value, index) => (
+                      <td key={index}>{value}</td>
+                    ))}
+                  </tr>
               </tbody>
             </table>
 
