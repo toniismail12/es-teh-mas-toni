@@ -8,6 +8,8 @@ servers:
 
   - url: http://10.10.2.189:62799
     description: API PUSRI Dev
+  - url: http://10.10.2.189:62798
+    description: API Pusri Prod
   - url: https://gwkong.pusri.co.id/service-iam-dev
     description: API ORG Dev
   - url: http://10.10.2.189:62714
