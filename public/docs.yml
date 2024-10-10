@@ -13,7 +13,9 @@ servers:
   - url: https://gwkong.pusri.co.id/service-iam-dev
     description: API ORG Dev
   - url: http://10.10.2.189:62714
-    description: API Send OTP WA
+    description: API Send OTP WA Dev
+  - url: http://10.10.2.189:62614
+    description: API Send OTP WA Prod
   - url: http://10.10.2.189:62821
     description: API Encrypt Decrypt
 

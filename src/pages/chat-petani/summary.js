@@ -6,6 +6,10 @@ import { SentChatTabular } from '@/controllers'
 import { useEffect, useState, useCallback } from 'react';
 
 export default function ChatSummary({ name, chat, load }) {
+
+  if (chat == undefined) {
+    return
+  }
   
   return (
 
@@ -72,7 +76,7 @@ export default function ChatSummary({ name, chat, load }) {
                 </tr>
               </thead>
               <tbody>
-              {Object.entries(chat).map(([key, value]) => (
+              {Object?.entries(chat)?.map(([key, value]) => (
                 <tr key={key}>
                   <td>{key}</td>
                   <td>{value}</td>
