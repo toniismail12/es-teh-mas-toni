@@ -46,6 +46,27 @@ components:
       description: "Number of items to return per page"
       schema:
         type: integer
+    
+    PageSize:
+      name: PageSize
+      in: query
+      description: "Page number for pagination (default: 1)"
+      schema:
+        type: integer
+    
+    PageNumber:
+      name: PageNumber
+      in: query
+      description: "Number of items to return per page"
+      schema:
+        type: integer
+
+    key:
+      name: key
+      in: query
+      description: "Key for access the endpoint"
+      schema:
+        type: string
 
   responses:
     "200":
@@ -1218,7 +1239,6 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
-  
 
   /api/admin/users:
     get:
@@ -1494,3 +1514,659 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+
+  /hcms/karyawan:
+    get:
+      tags:
+        - hcms
+      summary: Get list of employees with detailed information
+      parameters:
+        - $ref: "#/components/parameters/key"
+        - $ref: "#/components/parameters/PageNumber"
+        - $ref: "#/components/parameters/PageSize"
+        - name: badge
+          in: query
+          schema:
+            type: string
+          description: Employee badge number
+        - name: title
+          in: query
+          schema:
+            type: string
+          description: Employee title
+        - name: nama
+          in: query
+          schema:
+            type: string
+          description: Employee name
+        - name: positionCode
+          in: query
+          schema:
+            type: string
+          description: Position code
+        - name: positionLabel
+          in: query
+          schema:
+            type: string
+          description: Position label/description
+        - name: organization
+          in: query
+          schema:
+            type: string
+          description: Organization code
+        - name: organizationLabel
+          in: query
+          schema:
+            type: string
+          description: Organization label/description
+        - name: parentPosition
+          in: query
+          schema:
+            type: string
+          description: Parent position code
+        - name: parentPositionLabel
+          in: query
+          schema:
+            type: string
+          description: Parent position label/description
+        - name: parentBadge
+          in: query
+          schema:
+            type: string
+          description: Parent employee badge number
+        - name: costCenter
+          in: query
+          schema:
+            type: string
+          description: Cost center code
+        - name: costCenterLabel
+          in: query
+          schema:
+            type: string
+          description: Cost center label/description
+        - name: jabatan
+          in: query
+          schema:
+            type: string
+          description: Job title
+        - name: golongan
+          in: query
+          schema:
+            type: string
+          description: Grade code
+        - name: golonganLabel
+          in: query
+          schema:
+            type: string
+          description: Grade label/description
+        - name: area
+          in: query
+          schema:
+            type: string
+          description: Area code
+        - name: areaLabel
+          in: query
+          schema:
+            type: string
+          description: Area label/description
+        - name: subArea
+          in: query
+          schema:
+            type: string
+          description: Sub-area code
+        - name: subAreaLabel
+          in: query
+          schema:
+            type: string
+          description: Sub-area label/description
+        - name: shift
+          in: query
+          schema:
+            type: string
+          description: Shift code
+        - name: shiftLabel
+          in: query
+          schema:
+            type: string
+          description: Shift label/description
+        - name: tempatLahir
+          in: query
+          schema:
+            type: string
+          description: Place of birth
+        - name: tanggalLahir
+          in: query
+          schema:
+            type: string
+          description: Date of birth
+        - name: statusPerkawinan
+          in: query
+          schema:
+            type: string
+          description: Marital status
+        - name: agama
+          in: query
+          schema:
+            type: string
+          description: Religion
+        - name: gender
+          in: query
+          schema:
+            type: string
+          description: Gender
+        - name: address
+          in: query
+          schema:
+            type: string
+          description: Address
+        - name: city
+          in: query
+          schema:
+            type: string
+          description: City
+        - name: province
+          in: query
+          schema:
+            type: string
+          description: Province
+        - name: postalCode
+          in: query
+          schema:
+            type: string
+          description: Postal code
+        - name: country
+          in: query
+          schema:
+            type: string
+          description: Country
+        - name: tanggalPenerimaan
+          in: query
+          schema:
+            type: string
+          description: Date of acceptance
+        - name: tanggalPengangkatan
+          in: query
+          schema:
+            type: string
+          description: Date of appointment
+        - name: tanggalMasaKerja
+          in: query
+          schema:
+            type: string
+          description: Work period date
+        - name: tanggalPensiun
+          in: query
+          schema:
+            type: string
+          description: Retirement date
+        - name: tanggalMasaKerjaGolongan
+          in: query
+          schema:
+            type: string
+          description: Grade work period date
+        - name: education
+          in: query
+          schema:
+            type: string
+          description: Education level
+        - name: email
+          in: query
+          schema:
+            type: string
+          description: Email address
+        - name: phone
+          in: query
+          schema:
+            type: string
+          description: Phone number
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          description: Field to order results by
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
+          
+  /hcms/karyawan/{badge}:
+    get:
+      tags:
+        - hcms
+      summary: Get single employee by badge number
+      parameters:
+        - name: badge
+          in: path
+          required: true
+          description: Badge number of the employee
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /hcms/organisasi:
+    get:
+      tags:
+        - hcms
+      summary: Get list of organizations
+      parameters:
+        - $ref: "#/components/parameters/key"
+        - $ref: "#/components/parameters/PageNumber"
+        - $ref: "#/components/parameters/PageSize"
+        - name: oldOrganizationCode
+          in: query
+          schema:
+            type: string
+        - name: organizationCode
+          in: query
+          schema:
+            type: string
+        - name: organizationLabel
+          in: query
+          schema:
+            type: string
+        - name: costCenterLabel
+          in: query
+          schema:
+            type: string
+        - name: reportTo
+          in: query
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /hcms/organisasi/{organizationCode}:
+    get:
+      tags:
+        - hcms
+      summary: Get single organization by code
+      parameters:
+        - name: organizationCode
+          in: path
+          required: true
+          description: Organization code
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /hcms/karyawan-renumerasi/{badge}:
+    get:
+      tags:
+        - hcms
+      summary: Get single employee remuneration by badge
+      parameters:
+        - name: badge
+          in: path
+          required: true
+          description: Badge number of the employee
+          schema:
+            type: string
+        - $ref: "#/components/parameters/PageNumber"
+        - $ref: "#/components/parameters/PageSize"
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /hcms/karyawan-renumerasi:
+    get:
+      tags:
+        - hcms
+      summary: Get list of employee remunerations
+      parameters:
+        - $ref: "#/components/parameters/PageNumber"
+        - $ref: "#/components/parameters/PageSize"
+        - name: badge
+          in: query
+          schema:
+            type: string
+        - name: nama
+          in: query
+          schema:
+            type: string
+        - name: bankAccount
+          in: query
+          schema:
+            type: string
+        - name: bankName
+          in: query
+          schema:
+            type: string
+        - name: payee
+          in: query
+          schema:
+            type: string
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /akuntansi/account:
+    get:
+      tags:
+        - akuntansi
+      summary: Get list of accounts
+      description: Retrieve a list of accounts with optional filtering by account number and description
+      parameters:
+        - $ref: "#/components/parameters/PageNumber"
+        - $ref: "#/components/parameters/PageSize"
+        - name: account
+          in: query
+          required: false
+          description: Account number filter
+          schema:
+            type: string
+        - name: accountDescription
+          in: query
+          required: false
+          description: Account description filter
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
+
+  /akuntansi/cost-center:
+    get:
+      tags:
+        - akuntansi
+      summary: Get list of cost centers
+      description: Retrieve a list of cost centers with optional filtering by cost center code and description
+      parameters:
+        - $ref: "#/components/parameters/key"
+        - $ref: "#/components/parameters/PageNumber"
+        - $ref: "#/components/parameters/PageSize"
+        - name: costCenter
+          in: query
+          required: false
+          description: Cost center code filter
+          schema:
+            type: string
+        - name: costCenterDescription
+          in: query
+          required: false
+          description: Cost center description filter
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
+
+  /api/v1/akuntansi/account:
+    get:
+      tags:
+        - akuntansi
+      summary: Get list of accounts
+      description: Retrieve a list of accounts with optional filtering by account number and description
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: account_number
+          in: query
+          required: false
+          description: Account number filter
+          schema:
+            type: string
+        - name: description 
+          in: query
+          required: false
+          description: Account description filter
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /api/v1/akuntansi/cost-center:
+    get:
+      tags:
+        - akuntansi
+      summary: Get list of cost centers
+      description: Retrieve a list of cost centers with optional filtering by cost center code and description
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - name: cost_center_code
+          in: query
+          required: false
+          description: Cost center code filter
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: false
+          description: Cost center description filter
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/200"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+
+  /foto/{badge}:
+    get:
+      tags:
+        - foto
+      summary: Get employee photo (version 1)
+      description: Retrieve employee photo with optional resizing. Returns default male/female image if no photo exists.
+      parameters:
+        - $ref: "#/components/parameters/key"
+        - name: badge
+          in: path
+          required: true
+          description: Employee badge number
+          schema:
+            type: string
+        - name: width
+          in: query
+          required: false
+          description: Desired width of the image in pixels
+          schema:
+            type: integer
+        - name: height
+          in: query
+          required: false
+          description: Desired height of the image in pixels
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
+
+  /foto/v2/{badge}:
+    get:
+      tags:
+        - foto
+      summary: Get employee photo (version 2)
+      description: Retrieve employee photo from Badge 2021 directory with optional resizing. Default width is 200px. Returns default male/female image if no photo exists.
+      parameters:
+        - $ref: "#/components/parameters/key"
+        - name: badge
+          in: path
+          required: true
+          description: Employee badge number
+          schema:
+            type: string
+        - name: width
+          in: query
+          required: false
+          description: Desired width of the image in pixels (default 200)
+          schema:
+            type: integer
+            default: 200
+        - name: height
+          in: query
+          required: false
+          description: Desired height of the image in pixels
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
+
+  /api/v1/foto/{badge}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - foto
+      summary: Get employee photo (version 1)
+      description: Retrieve employee photo with optional resizing. Returns default male/female image if no photo exists.
+      parameters:
+        - name: badge
+          in: path
+          required: true
+          description: Employee badge number
+          schema:
+            type: string
+        - name: width
+          in: query
+          required: false
+          description: Desired width of the image in pixels
+          schema:
+            type: integer
+        - name: height
+          in: query
+          required: false
+          description: Desired height of the image in pixels
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
+
+  /api/v1/foto/v2/{badge}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - foto
+      summary: Get employee photo (version 2)
+      description: Retrieve employee photo from Badge 2021 directory with optional resizing. Default width is 200px. Returns default male/female image if no photo exists.
+      parameters:
+        - $ref: "#/components/parameters/key"
+        - name: badge
+          in: path
+          required: true
+          description: Employee badge number
+          schema:
+            type: string
+        - name: width
+          in: query
+          required: false
+          description: Desired width of the image in pixels (default 200)
+          schema:
+            type: integer
+            default: 200
+        - name: height
+          in: query
+          required: false
+          description: Desired height of the image in pixels
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Internal Server Error
