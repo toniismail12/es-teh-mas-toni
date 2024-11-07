@@ -283,6 +283,7 @@ export default function Org() {
                       </div>
                       {orgName}
                     </div>
+                    
                   </div>
                   <div className="mb-4 row align-items-center">
                     <label

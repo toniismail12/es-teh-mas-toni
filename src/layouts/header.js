@@ -37,6 +37,17 @@ export default function Header() {
                             </Link>
 
                         </li>
+                        <li className="nav-item d-none d-lg-block">
+
+                            <Link
+                                className="nav-link"
+                                href="/docs.html"
+                                data-bs-toggle="dropdown"
+                            >
+                                Documentation
+                            </Link>
+
+                        </li>
                         <li className="nav-item dropdown hover-dd d-none d-lg-block">
                             <Link
                                 className="nav-link"
@@ -123,6 +134,24 @@ export default function Header() {
                                                                 <div className="d-inline-block">
                                                                     <h6 className="mb-1 fw-semibold fs-3">
                                                                         Chat Petani
+                                                                    </h6>
+                                                                    
+                                                                </div>
+                                                            </Link> 
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="col-12">
+                                                        <div className="position-relative">
+                                                            <Link
+                                                                href="/document-processing"
+                                                                className="d-flex align-items-center pb-9 position-relative"
+                                                            >
+
+                                                                <div className="d-inline-block">
+                                                                    <h6 className="mb-1 fw-semibold fs-3">
+                                                                        Documents Processing - Read Image
                                                                     </h6>
                                                                     
                                                                 </div>
