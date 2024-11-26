@@ -16,7 +16,7 @@ export default function Main({ children }) {
     if (res !== 'error') {
       setData(res)
     } else {
-      window.location.href = 'http://localhost:9001/api/login?redirect_to=http://localhost:3000';
+      window.location.href = 'http://localhost:9001/api/login?redirect_to='+process.env.NEXT_PUBLIC_URL;
     }
 
   }, []);
