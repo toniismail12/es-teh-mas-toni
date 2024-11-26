@@ -1,8 +1,24 @@
 import React from 'react'
 import Image from "next/image";
 import Link from "next/link"
+import { Logout } from '@/controllers';
 
 export default function Header() {
+
+    async function logout() {
+        const res = await Logout()
+
+        if (res != "error") {
+
+            document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            window.location.reload();
+        }
+
+
+    }
+
     return (
         <header className="topbar">
             <div className="with-horizontal">
@@ -214,7 +230,7 @@ export default function Header() {
                                         aria-expanded="false"
                                     >
                                         <div className="d-flex align-items-center">
-                                            <div className="user-profile-img">
+                                            {/* <div className="user-profile-img">
                                                 <Image
                                                     src="/assets/images/profile/user-1.jpg"
                                                     className="rounded-circle"
@@ -222,7 +238,8 @@ export default function Header() {
                                                     height={35}
                                                     alt=""
                                                 />
-                                            </div>
+                                            </div> */}
+                                            <button onClick={logout} className="btn btn-sm btn-danger">Logout</button>
                                         </div>
                                     </a>
 

@@ -23,11 +23,15 @@ async function GetAuthme() {
 
 }
 
-async function Logout(refresh_token) {
+async function Logout() {
+
+    const cookieString = document?.cookie
+        
+    const cleanToken = cookieString.split(';').find(cookie => cookie.trim().startsWith('refresh_token=')).split('=')[1];
 
     const config = {
         params: { 
-            refresh_token: refresh_token,
+            refresh_token: cleanToken,
         },
     }
 
