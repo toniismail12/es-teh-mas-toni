@@ -16,7 +16,7 @@ export default function Main({ children }) {
     if (res !== 'error') {
       setData(res)
     } else {
-      window.location.href = 'http://localhost:9001/api/login?redirect_to='+process.env.NEXT_PUBLIC_URL;
+      window.location.href = process.env.NEXT_PUBLIC_API_SVC_SSO+'/api/login?redirect_to='+process.env.NEXT_PUBLIC_URL;
     }
 
   }, []);
