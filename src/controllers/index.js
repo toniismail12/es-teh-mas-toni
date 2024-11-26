@@ -9,6 +9,7 @@ import {
 
 import { GetContact, SentChatTabular, GetChatHistory } from './tabular-chat-petani'
 import { SentChatDocProcess } from './document-processing'
+import { GetAuthme, Logout } from './auth'
 
 export default GetOrg
 export {
@@ -22,4 +23,6 @@ export {
     SentChatTabular,
     GetChatHistory,
     SentChatDocProcess,
+    GetAuthme, 
+    Logout,
 }
