@@ -78,15 +78,15 @@ async function VerifyOTP(code, redirect) {
 
 async function Logout() {
 
-    const cookieString = document?.cookie
+    // const cookieString = document?.cookie
         
-    const cleanToken = cookieString.split(';').find(cookie => cookie.trim().startsWith('refresh_token=')).split('=')[1];
+    // const cleanToken = cookieString.split(';').find(cookie => cookie.trim().startsWith('refresh_token=')).split('=')[1];
 
-    const config = {
-        params: { 
-            refresh_token: cleanToken,
-        },
-    }
+    // const config = {
+    //     params: { 
+    //         refresh_token: cleanToken,
+    //     },
+    // }
 
     try {
         const res = await svc_sso.get("/api/logout", {
