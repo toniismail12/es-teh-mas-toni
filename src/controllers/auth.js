@@ -89,7 +89,13 @@ async function Logout() {
     }
 
     try {
-        const res = await svc_sso.get("/api/logout", config);
+        const res = await svc_sso.get("/api/logout", {
+            // headers: {
+            //     // Authorization: ` ${cleanToken}`,
+               
+            // },
+            withCredentials: true,
+        });
         // console.log('Response:', res);
         return res
 
