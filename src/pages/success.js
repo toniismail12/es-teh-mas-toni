@@ -1,23 +1,10 @@
 import React from 'react'
-import { VerifyOTP, CheckAuth } from '@/controllers';
+import { VerifyOTP } from '@/controllers';
 import { useRouter } from 'next/router';
-import { useEffect, useCallback } from 'react';
 
 export default function SuccesPage() {
 
   const { query } = useRouter()
-
-  const fetchData = useCallback(async () => {
-
-    await CheckAuth()
-
-  }, []);
-
-  // useEffect(() => {
-
-  //   fetchData()
-
-  // }, [fetchData])
 
   async function PostKode() {
     // Collect values from the input fields
@@ -26,10 +13,11 @@ export default function SuccesPage() {
       return inputElement?.value || ""; // Get the value or default to an empty string
     }).join(""); // Join the array values into a single string
 
-    const redirect = query.redirect_uri; // Get redirect URL from environment variable
+    const redirect = query?.redirect_uri; // Get redirect URL from environment variable
+    const token = query?.t;
 
     if (kode.length === 6) { // Ensure all inputs are filled
-      await VerifyOTP(kode, redirect);
+      await VerifyOTP(kode, redirect, token);
     } else {
       alert("Please fill all input fields.");
     }
