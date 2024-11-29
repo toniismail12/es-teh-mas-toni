@@ -27,16 +27,22 @@ async function CheckAuth() {
 
     try {
 
-        const cookieString = document?.cookie
-        var cleanToken = "-";
-        if(cookieString) {
-            cleanToken = cookieString.split(';').find(cookie => cookie.trim().startsWith('access_token=')).split('=')[1];
+        const cookieString = document?.cookie || "";
+        let cleanToken = "-";
+
+        if (cookieString) {
+            const accessTokenCookie = cookieString.split(';').find(cookie => cookie.trim().startsWith('access_token='));
+            if (accessTokenCookie) {
+                cleanToken = accessTokenCookie.split('=')[1] || "-";
+            }
         }
 
         const res = await svc_sso.get("/protect/check-auth", {
-            headers: {
-                Authorization: `Bearer ${cleanToken}`,
-            },
+            // headers: {
+            //     // Authorization: ` ${cleanToken}`,
+               
+            // },
+            withCredentials: true,
         });
         // console.log('Response:', res);
         return res

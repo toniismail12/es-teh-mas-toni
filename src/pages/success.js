@@ -13,11 +13,11 @@ export default function SuccesPage() {
 
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    fetchData()
+  //   fetchData()
 
-  }, [fetchData])
+  // }, [fetchData])
 
   async function PostKode() {
     // Collect values from the input fields
