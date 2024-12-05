@@ -52,9 +52,9 @@ async function CheckAuth() {
         });
         console.log('Response:', res);
         const mfa = res?.data?.mfa
-        if (!mfa) {
-            window.location.href = process.env.NEXT_PUBLIC_API_SVC_SSO+"/api/login?redirect_to="+process.env.NEXT_PUBLIC_URL
-        }
+        // if (!mfa) {
+        //     window.location.href = "/mfa?redirect_to="+process.env.NEXT_PUBLIC_URL
+        // }
         return res
 
     } catch (error) {
