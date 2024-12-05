@@ -9,7 +9,8 @@ import {
 
 import { GetContact, SentChatTabular, GetChatHistory } from './tabular-chat-petani'
 import { SentChatDocProcess } from './document-processing'
-import { GetAuthme, CheckAuth, VerifyOTP, Logout } from './auth'
+import { GetAuthme, CheckAuth, CheckMFA, Logout } from './auth'
+import { VerifyOTP, SendOTP } from './mfa'
 
 export default GetOrg
 export {
@@ -27,4 +28,6 @@ export {
     Logout,
     CheckAuth,
     VerifyOTP,
+    CheckMFA,
+    SendOTP,
 }

@@ -4,9 +4,15 @@ async function GetAuthme() {
 
     try {
 
-        const cookieString = document?.cookie
-        
-        const cleanToken = cookieString.split(';').find(cookie => cookie.trim().startsWith('access_token=')).split('=')[1];
+        const cookieString = document?.cookie || "";
+        let cleanToken = "-";
+
+        if (cookieString) {
+            const accessTokenCookie = cookieString.split(';').find(cookie => cookie.trim().startsWith('access_token='));
+            if (accessTokenCookie) {
+                cleanToken = accessTokenCookie.split('=')[1] || "-";
+            }
+        }
 
         const res = await svc_sso.get("/protect/authme", {
             headers: {
@@ -27,24 +33,10 @@ async function CheckAuth() {
 
     try {
 
-        const cookieString = document?.cookie || "";
-        let cleanToken = "-";
-
-        if (cookieString) {
-            const accessTokenCookie = cookieString.split(';').find(cookie => cookie.trim().startsWith('access_token='));
-            if (accessTokenCookie) {
-                cleanToken = accessTokenCookie.split('=')[1] || "-";
-            }
-        }
-
         const res = await svc_sso.get("/protect/check-auth", {
-            // headers: {
-            //     // Authorization: ` ${cleanToken}`,
-               
-            // },
             withCredentials: true,
         });
-        // console.log('Response:', res);
+        
         return res
 
     } catch (error) {
@@ -54,42 +46,30 @@ async function CheckAuth() {
 
 }
 
-async function VerifyOTP(code, redirect) {
-
-    const data = {
-        kode: code,
-        redirect_to: redirect
-    }
+async function CheckMFA() {
 
     try {
-        await svc_sso.post("/protect/verify-otp", data);
 
-        const decoded = atob(redirect);
+        const res = await svc_sso.get("/protect/check-auth", {
+            withCredentials: true,
+        });
         // console.log('Response:', res);
-        window.location.href = decoded
+       
+        return res
 
     } catch (error) {
         console.error('Error:', error);
-        // alert("error update data")
-        return "error"
+        window.location.href = process.env.NEXT_PUBLIC_API_SVC_SSO+"/api/login?redirect_to="+process.env.NEXT_PUBLIC_URL
     }
 
 }
 
 async function Logout() {
 
-    const cookieString = document?.cookie
-        
-    const cleanToken = cookieString.split(';').find(cookie => cookie.trim().startsWith('refresh_token=')).split('=')[1];
-
-    const config = {
-        params: { 
-            refresh_token: cleanToken,
-        },
-    }
-
     try {
-        const res = await svc_sso.get("/api/logout", config);
+        const res = await svc_sso.get("/api/logout", {
+            withCredentials: true,
+        });
         // console.log('Response:', res);
         return res
 
@@ -101,4 +81,4 @@ async function Logout() {
 }
 
 export default GetAuthme
-export { GetAuthme, Logout, CheckAuth, VerifyOTP }
+export { GetAuthme, Logout, CheckAuth, CheckMFA }
