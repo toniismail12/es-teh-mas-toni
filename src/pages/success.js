@@ -1,27 +1,41 @@
 import React from 'react'
-import { VerifyOTP } from '@/controllers';
+import { CheckMFA } from '@/controllers';
 import { useRouter } from 'next/router';
+import { useEffect, useCallback } from 'react';
 
 export default function SuccesPage() {
 
   const { query } = useRouter()
 
-  async function PostKode() {
-    // Collect values from the input fields
-    const kode = Array.from({ length: 6 }, (_, i) => {
-      const inputElement = document.getElementById(`text${i + 1}`);
-      return inputElement?.value || ""; // Get the value or default to an empty string
-    }).join(""); // Join the array values into a single string
+  const fetchData = useCallback(async () => {
 
-    const redirect = query?.redirect_uri; // Get redirect URL from environment variable
-    const token = query?.t;
+    const qre = query?.redirect_to
 
-    if (kode.length === 6) { // Ensure all inputs are filled
-      await VerifyOTP(kode, redirect, token);
-    } else {
-      alert("Please fill all input fields.");
-    }
-  }
+    setTimeout(async function () {
+
+      if(qre){
+
+        const res = await CheckMFA(qre)
+        const mfa = res?.data?.mfa
+
+        if (!mfa) {
+          window.location.href = "/mfa?redirect_to="+qre
+        } else {
+          const decoded = atob(qre);
+          window.location.href = decoded
+
+        }
+      }
+
+    }, 2000);
+
+  }, [query]);
+
+  useEffect(() => {
+
+    fetchData()
+
+  }, [fetchData])
 
   return (
     <div className="position-relative overflow-hidden radial-gradient min-vh-100 w-100 d-flex align-items-center justify-content-center">
@@ -33,45 +47,19 @@ export default function SuccesPage() {
 
                 <div className="mb-5 text-center">
 
-                  <h5 className="fw-bolder mb-3">Multifactor Authentication</h5>
+                  <h5 className="fw-bolder mb-3">Single Sign On</h5>
 
                   <p>
-                    We sent a verification code to your mobile. Enter the code from
-                    the mobile in the field below.
+                    Verification successful! We will redirect you to the page shortly. Please wait.
                   </p>
 
-                </div>
-                  <div className="mb-3">
-                    <label
-                      className="form-label fw-semibold"
-                    >
-                      Type your 6 digits security code
-                    </label>
-                    <div className="d-flex align-items-center gap-2 gap-sm-3">
-                      <input id='text1' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text2' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text3' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text4' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text5' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text6' maxLength={1} type="text" className="form-control" placeholder="" />
+                  <div className="text-center">
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">Loading...</span>
                     </div>
                   </div>
-                  <button
-                    onClick={PostKode}
-                    className="btn btn-primary w-100 py-8 mb-4 d-flex align-item-center justify-content-center"
-                  >
-                    <i className="ti ti-check fs-6 me-2"></i>
-                    Verify
-                  </button>
-                  <div className="d-flex align-items-center">
-                    <p className="fs-4 mb-0 text-dark">Didn`t get the code?</p>
-                    <a
-                      className="text-primary fw-medium ms-2"
-                      href="javascript:void(0)"
-                    >
-                      Resend
-                    </a>
-                  </div>
+                </div>
+
               </div>
             </div>
           </div>

@@ -11,7 +11,11 @@ export default function Main({ children }) {
 
   const fetchData = useCallback(async () => {
 
-    await CheckAuth()
+    const res = await CheckAuth()
+    const mfa = res?.data?.mfa
+    if (!mfa) {
+      window.location.href = process.env.NEXT_PUBLIC_API_SVC_SSO+"/api/login?redirect_to="+process.env.NEXT_PUBLIC_URL
+    }
     // await GetAuthme()
 
   }, []);

@@ -1,10 +1,27 @@
 import React from 'react'
-import { VerifyOTP } from '@/controllers';
+import { VerifyOTP, SendOTP } from '@/controllers';
 import { useRouter } from 'next/router';
+import { useEffect, useCallback } from 'react';
 
 export default function SuccesPage() {
 
   const { query } = useRouter()
+
+  const fetchData = useCallback(async () => {
+
+    setTimeout(function () {
+
+      SendOTP()
+
+    }, 1000);
+
+  }, []);
+
+  useEffect(() => {
+
+    fetchData()
+
+  }, [fetchData])
 
   async function PostKode() {
     // Collect values from the input fields
@@ -13,11 +30,10 @@ export default function SuccesPage() {
       return inputElement?.value || ""; // Get the value or default to an empty string
     }).join(""); // Join the array values into a single string
 
-    const redirect = query?.redirect_uri; // Get redirect URL from environment variable
-    const token = query?.t;
+    const redirect = query?.redirect_to; // Get redirect URL from environment variable
 
     if (kode.length === 6) { // Ensure all inputs are filled
-      await VerifyOTP(kode, redirect, token);
+      await VerifyOTP(kode, redirect);
     } else {
       alert("Please fill all input fields.");
     }
@@ -63,7 +79,7 @@ export default function SuccesPage() {
                     <i className="ti ti-check fs-6 me-2"></i>
                     Verify
                   </button>
-                  <div className="d-flex align-items-center">
+                  {/* <div className="d-flex align-items-center">
                     <p className="fs-4 mb-0 text-dark">Didn`t get the code?</p>
                     <a
                       className="text-primary fw-medium ms-2"
@@ -71,7 +87,7 @@ export default function SuccesPage() {
                     >
                       Resend
                     </a>
-                  </div>
+                  </div> */}
               </div>
             </div>
           </div>
