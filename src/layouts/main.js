@@ -2,7 +2,7 @@ import Image from "next/image";
 import Header from "./header";
 import { useRouter } from 'next/router';
 import { useEffect, useState, useCallback } from 'react';
-import { GetAuthme, CheckAuth } from '@/controllers';
+import { CheckAuth } from '@/controllers';
 
 export default function Main({ children }) {
   const { pathname } = useRouter()

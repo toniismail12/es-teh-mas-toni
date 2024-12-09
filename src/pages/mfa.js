@@ -57,29 +57,39 @@ export default function SuccesPage() {
                   </p>
 
                 </div>
-                  <div className="mb-3">
-                    <label
-                      className="form-label fw-semibold"
-                    >
-                      Type your 6 digits security code
-                    </label>
-                    <div className="d-flex align-items-center gap-2 gap-sm-3">
-                      <input id='text1' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text2' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text3' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text4' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text5' maxLength={1} type="text" className="form-control" placeholder="" />
-                      <input id='text6' maxLength={1} type="text" className="form-control" placeholder="" />
-                    </div>
-                  </div>
-                  <button
-                    onClick={PostKode}
-                    className="btn btn-primary w-100 py-8 mb-4 d-flex align-item-center justify-content-center"
+                <div className="mb-3">
+                  <label
+                    className="form-label fw-semibold"
                   >
-                    <i className="ti ti-check fs-6 me-2"></i>
-                    Verify
-                  </button>
-                  {/* <div className="d-flex align-items-center">
+                    Type your 6 digits security code
+                  </label>
+                  <div className="d-flex align-items-center gap-2 gap-sm-3">
+                    {[...Array(6)].map((_, index) => (
+                      <input
+                        key={index}
+                        id={`text${index + 1}`}
+                        maxLength={1}
+                        type="text"
+                        className="form-control"
+                        placeholder=""
+                        onInput={(e) => {
+                          const nextInput = document.getElementById(`text${index + 2}`);
+                          if (nextInput && e.target.value.length === 1) {
+                            nextInput.focus();
+                          }
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <button
+                  onClick={PostKode}
+                  className="btn btn-primary w-100 py-8 mb-4 d-flex align-item-center justify-content-center"
+                >
+                  <i className="ti ti-check fs-6 me-2"></i>
+                  Verify
+                </button>
+                {/* <div className="d-flex align-items-center">
                     <p className="fs-4 mb-0 text-dark">Didn`t get the code?</p>
                     <a
                       className="text-primary fw-medium ms-2"
