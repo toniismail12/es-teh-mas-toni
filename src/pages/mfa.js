@@ -12,7 +12,6 @@ export default function SuccesPage() {
   const fetchData = useCallback(async () => {
 
     const res = await SendOTP()
-    console.log(res?.data?.no_hp)
     setNo_hp(res?.data?.no_hp)
 
   }, []);
@@ -41,6 +40,9 @@ export default function SuccesPage() {
 
   async function ResendKode() {
     fetchData()
+
+    alert("code success resend")
+
   }
 
   return (
