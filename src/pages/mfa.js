@@ -1,19 +1,19 @@
 import React from 'react'
 import { VerifyOTP, SendOTP } from '@/controllers';
 import { useRouter } from 'next/router';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 
 export default function SuccesPage() {
 
   const { query } = useRouter()
 
+  const [no_hp, setNo_hp] = useState("")
+
   const fetchData = useCallback(async () => {
 
-    setTimeout(function () {
-
-      SendOTP()
-
-    }, 1000);
+    const res = await SendOTP()
+    console.log(res?.data?.no_hp)
+    setNo_hp(res?.data?.no_hp)
 
   }, []);
 
@@ -39,6 +39,10 @@ export default function SuccesPage() {
     }
   }
 
+  async function ResendKode() {
+    fetchData()
+  }
+
   return (
     <div className="position-relative overflow-hidden radial-gradient min-vh-100 w-100 d-flex align-items-center justify-content-center">
       <div className="d-flex align-items-center justify-content-center w-100">
@@ -47,7 +51,7 @@ export default function SuccesPage() {
             <div className="card mb-0">
               <div className="card-body pt-5">
 
-                <div className="mb-5 text-center">
+                <div className="mb-3 text-center">
 
                   <h5 className="fw-bolder mb-3">Multifactor Authentication</h5>
 
@@ -55,6 +59,14 @@ export default function SuccesPage() {
                     We sent a verification code to your mobile. Enter the code from
                     the mobile in the field below.
                   </p>
+
+                </div>
+                <div className="mb-4 text-center">
+
+                  <p>
+                    We sent code to: 
+                  </p>
+                  <h5 className="fw-bolder">{no_hp}</h5>
 
                 </div>
                 <div className="mb-3">
@@ -89,15 +101,16 @@ export default function SuccesPage() {
                   <i className="ti ti-check fs-6 me-2"></i>
                   Verify
                 </button>
-                {/* <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center">
                     <p className="fs-4 mb-0 text-dark">Didn`t get the code?</p>
                     <a
+                      onClick={ResendKode}
                       className="text-primary fw-medium ms-2"
                       href="javascript:void(0)"
                     >
                       Resend
                     </a>
-                  </div> */}
+                  </div>
               </div>
             </div>
           </div>
