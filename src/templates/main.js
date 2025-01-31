@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head'
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { CheckLogin } from '@/controllers';
+import { Analytics } from '@vercel/analytics/next';
 
 export default function Main({ children }) {
 
@@ -49,6 +50,7 @@ export default function Main({ children }) {
                   <div className="card">
                     <div className="card-body">
                       {children}
+                      <Analytics />
                     </div>
                   </div>
                 </div>
