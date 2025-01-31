@@ -1,24 +1,9 @@
-import { svc_sso } from "@/api";
+import { svc_iam } from "@/api";
 
-async function GetAuthme() {
+async function CheckLogin() {
 
     try {
-
-        const cookieString = document?.cookie || "";
-        let cleanToken = "-";
-
-        if (cookieString) {
-            const accessTokenCookie = cookieString.split(';').find(cookie => cookie.trim().startsWith('access_token='));
-            if (accessTokenCookie) {
-                cleanToken = accessTokenCookie.split('=')[1] || "-";
-            }
-        }
-
-        const res = await svc_sso.get("/protect/authme", {
-            headers: {
-                Authorization: `Bearer ${cleanToken}`,
-            },
-        });
+        const res = await svc_iam.get("/tn/check-login");
         // console.log('Response:', res);
         return res?.data
 
@@ -29,56 +14,27 @@ async function GetAuthme() {
 
 }
 
-async function CheckAuth() {
+async function Login(username, password) {
 
-    try {
-
-        const res = await svc_sso.get("/protect/check-auth", {
-            withCredentials: true,
-        });
-        
-        return res
-
-    } catch (error) {
-        console.error('Error:', error);
-        window.location.href = process.env.NEXT_PUBLIC_API_SVC_SSO+"/api/login?redirect_to="+process.env.NEXT_PUBLIC_URL
+    const data = {
+        username: username,
+        password: password,
     }
 
-}
-
-async function CheckMFA() {
+    // console.log(data)
 
     try {
-
-        const res = await svc_sso.get("/protect/check-auth", {
-            withCredentials: true,
-        });
+        const res = await svc_iam.post("/tn/login", data);
         // console.log('Response:', res);
-       
-        return res
+        return res?.data
 
     } catch (error) {
         console.error('Error:', error);
-        window.location.href = process.env.NEXT_PUBLIC_API_SVC_SSO+"/api/login?redirect_to="+process.env.NEXT_PUBLIC_URL
-    }
-
-}
-
-async function Logout() {
-
-    try {
-        const res = await svc_sso.get("/api/logout", {
-            withCredentials: true,
-        });
-        // console.log('Response:', res);
-        return res
-
-    } catch (error) {
-        console.error('Error:', error);
+        alert("Failed Login")
         return "error"
     }
 
 }
 
-export default GetAuthme
-export { GetAuthme, Logout, CheckAuth, CheckMFA }
+export default CheckLogin
+export { CheckLogin, Login }

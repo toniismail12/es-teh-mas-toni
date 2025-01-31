@@ -1,14 +1,14 @@
 import React from 'react';
-import { Main } from '@/layouts';
-import Image from "next/image";
+import { Main } from '@/templates';
 
 export default function Home() {
+    
     return (
         <Main>
 
             <div className="row">
                 <div className="col-lg-12">
-                    kiw kiw ...
+                    Welcome
                 </div>
             </div>
 

@@ -1,33 +1,28 @@
-import {
-    GetOrg,
-    SaveOrg,
-    DeleteOrg,
-    GetEmp,
-    GetOldOrg,
-    UpdateOrgParent,
-} from "./iam";
+import { GetStok, SaveStok, DeleteStok, ChangeStok } from './stok'
+import { GetProduk, SaveProduk, DeleteProduk } from './produk'
+import { GetRelasi, SaveRelasi, DeleteRelasi } from './produk-relasi'
+import { GetTrx, SaveTrx, DeleteTrx, TrxToRilis } from './trx.js'
+import { GetGrpTrx, SaveGrpTrx } from './group-trx'
+import { CheckLogin, Login } from './auth'
 
-import { GetContact, SentChatTabular, GetChatHistory } from './tabular-chat-petani'
-import { SentChatDocProcess } from './document-processing'
-import { GetAuthme, CheckAuth, CheckMFA, Logout } from './auth'
-import { VerifyOTP, SendOTP } from './mfa'
-
-export default GetOrg
+export default GetProduk
 export {
-    GetOrg,
-    SaveOrg,
-    DeleteOrg,
-    GetEmp,
-    GetOldOrg,
-    UpdateOrgParent,
-    GetContact,
-    SentChatTabular,
-    GetChatHistory,
-    SentChatDocProcess,
-    GetAuthme, 
-    Logout,
-    CheckAuth,
-    VerifyOTP,
-    CheckMFA,
-    SendOTP,
+    GetStok,
+    SaveStok,
+    DeleteStok,
+    GetProduk,
+    SaveProduk,
+    DeleteProduk,
+    GetRelasi,
+    SaveRelasi,
+    DeleteRelasi,
+    GetTrx,
+    SaveTrx,
+    DeleteTrx,
+    TrxToRilis,
+    GetGrpTrx,
+    SaveGrpTrx,
+    ChangeStok,
+    CheckLogin, 
+    Login,
 }

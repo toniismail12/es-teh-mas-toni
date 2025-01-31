@@ -11,9 +11,9 @@ export default function Modal({show, title, onClose, body}) {
             <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header d-flex align-items-center">
-                        <h4 className="modal-title" id="myLargeModalLabel">
+                        <h5 className="modal-title" id="myLargeModalLabel">
                             {title}
-                        </h4>
+                        </h5>
                         <button
                             onClick={onClose}
                             type="button"
