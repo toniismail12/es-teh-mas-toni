@@ -92,6 +92,9 @@ export default function Stok() {
                             <thead className="text-dark fs-4">
                                 <tr>
                                     <th>
+                                        <h6 className="fs-4 fw-semibold mb-0">No</h6>
+                                    </th>
+                                    <th>
                                         <h6 className="fs-4 fw-semibold mb-0">Barang</h6>
                                     </th>
                                     <th>
@@ -103,9 +106,15 @@ export default function Stok() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {datas?.map((item) => {
+                                {datas?.map((item, i) => {
                                     return (
                                         <tr key={item.id}>
+
+                                            <td>
+                                                <div className="">
+                                                    <h6 className="fs-4 fw-semibold mb-0">{i+1}</h6>
+                                                </div>
+                                            </td>
 
                                             <td>
                                                 <div className="">
@@ -121,7 +130,6 @@ export default function Stok() {
                                             </td>
 
                                             <td>
-
                                                 <button onClick={() => showForm(item.id, item)} className="btn btn-success me-2">
                                                     <i className="ti ti-pencil"></i>
                                                 </button>

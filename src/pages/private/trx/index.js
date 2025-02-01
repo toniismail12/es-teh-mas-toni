@@ -215,34 +215,33 @@ export default function Trx() {
                             <thead className="text-dark fs-4">
                                 <tr>
                                     <th>
-                                        <h6 className="fs-4 fw-semibold mb-0">Produk</h6>
+                                        <h6 className="fs-3 fw-semibold mb-0">Produk</h6>
                                     </th>
-                                    <th>
+                                    {/* <th>
                                         <h6 className="fs-4 fw-semibold mb-0">Debit</h6>
-                                    </th>
+                                    </th> */}
                                     {/* <th>
                                         <h6 className="fs-4 fw-semibold mb-0"></h6>
                                     </th> */}
                                 </tr>
                             </thead>
                             <tbody>
-                                {dataTrx?.map((item) => {
+                                {dataTrx?.map((item, i) => {
     
                                     return (
                                         <tr key={item.id}>
-
                                             <td>
                                                 <div className="">
-                                                    <h6 className="fs-4 fw-semibold mb-0">{item.produk}</h6>
-                                                    <span className="fw-normal">Rp. {item.harga_produk} x {item.jumlah_beli}</span>
+                                                    <h6 className="fs-3 fw-semibold mb-0">{i+1}. {item.produk}</h6>
+                                                    <span className="fw-normal ms-3">Rp. {item.harga_produk} x {item.jumlah_beli} = {item.harga_produk*item.jumlah_beli}</span>
                                                 </div>
                                             </td>
 
-                                            <td>
+                                            {/* <td>
                                                 <div className="">
                                                     <h6 className="fs-4 fw-semibold mb-0">{item.harga_produk*item.jumlah_beli}</h6>
                                                 </div>
-                                            </td>
+                                            </td> */}
 
                                             {/* <td>
                                                 <button className="btn btn-success me-2">
@@ -257,8 +256,8 @@ export default function Trx() {
                                     )
                                 })}
                                 <tr>
-                                    <td><h6 className="fs-4 fw-semibold mb-0">Total</h6></td>
-                                    <td><h5 className="fs-5 fw-semibold mb-0">{total}</h5></td>
+                                    <td><h6 className="fs-4 fw-semibold mb-0">Total : {total}</h6></td>
+                                    {/* <td><h5 className="fs-5 fw-semibold mb-0">{total}</h5></td> */}
                                 </tr>
 
                             </tbody>
