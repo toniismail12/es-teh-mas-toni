@@ -22,8 +22,11 @@ export default function Data() {
     const [ShowModal, setShowModal] = useState('')
     const [ShowModalRelasi, setShowModalRelasi] = useState('')
 
+    const [mode, setMode] = useState('create')
+
     // form
     const [id, setId] = useState('')
+    const [lastId, setLastId] = useState('')
     const [kode, setKode] = useState('')
     const [produk, setProduk] = useState('')
     const [harga, setHarga] = useState('')
@@ -38,10 +41,14 @@ export default function Data() {
 
         setData([])
 
-        const res = await GetProduk(1, 50, prd);
+        const res = await GetProduk(1, 100, prd);
 
         if (res !== 'error') {
-            setData(res.data)
+            const lastId = res?.data.reduce((max, item) => Math.max(max, item.id), 0);
+            setLastId(lastId+1)
+            
+            const sortedData = res?.data.sort((a, b) => b.id - a.id);
+            setData(sortedData)
         }
 
     }, []);
@@ -85,6 +92,8 @@ export default function Data() {
     }
 
     function showForm() {
+        setMode("create")
+
         setId("")
         setKode("")
         setProduk("")
@@ -95,6 +104,8 @@ export default function Data() {
 
     function showFormUpdate(item) {
         
+        setMode("update")
+
         setId(item?.id)
         setKode(item?.kode)
         setProduk(item?.produk)
@@ -105,11 +116,22 @@ export default function Data() {
 
     async function submitForm() {
 
-        const res = await SaveProduk(id, kode, produk, harga)
-        if (res !== "error") {
-            fetchData("")
-            alert("success")
-            setShowModal("")
+        if (mode === "create") {
+            const kodePrd = kode+"-"+lastId;
+            const res = await SaveProduk(id, kodePrd, produk, harga)
+            if (res !== "error") {
+                fetchData("")
+                alert("success")
+                setShowModal("")
+            }
+        } else {
+
+            const res = await SaveProduk(id, kode, produk, harga)
+            if (res !== "error") {
+                fetchData("")
+                alert("success")
+                setShowModal("")
+            }
         }
     }
 
@@ -265,15 +287,29 @@ export default function Data() {
                                             </label>
                                             <div className="col-sm-9">
                                                 <div className="input-group border rounded-1">
-                                                    <input
+                                                    <select 
                                                         value={kode}
                                                         onChange={(e) => setKode(e.target.value)}
                                                         name="Kode"
                                                         type="text"
-                                                        className="form-control border-0 ps-2"
+                                                        className="form-control-select border-0 ps-2"
                                                         placeholder="Kode"
-                                                    // disabled
-                                                    />
+                                                        disabled={mode === "update" ? true : false}
+                                                    >
+                                                        <option value="ET">ET</option>
+                                                        <option value="WR">WR</option>
+                                                    </select>
+                                                        
+                                                    {mode === "create" &&
+                                                        <input
+                                                            value={lastId}
+                                                            name="Kode"
+                                                            type="text"
+                                                            className="form-control ps-2 border"
+                                                            placeholder="Kode"
+                                                            disabled
+                                                        />
+                                                    }
 
                                                 </div>
                                             </div>
