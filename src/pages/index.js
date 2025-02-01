@@ -8,7 +8,7 @@ export default function Home() {
 
             <div className="row">
                 <div className="col-lg-12">
-                    Welcome
+                    Welcome to Es Teh Mas Toni
                 </div>
             </div>
 
