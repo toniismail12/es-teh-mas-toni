@@ -27,7 +27,7 @@ export default function Data() {
     // form
     const [id, setId] = useState('')
     const [lastId, setLastId] = useState('')
-    const [kode, setKode] = useState('')
+    const [kode, setKode] = useState('ET')
     const [produk, setProduk] = useState('')
     const [harga, setHarga] = useState('')
 
@@ -95,7 +95,7 @@ export default function Data() {
         setMode("create")
 
         setId("")
-        setKode("")
+        setKode("ET")
         setProduk("")
         setHarga("")
 
