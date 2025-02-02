@@ -82,7 +82,7 @@ export default function Trx() {
 
     }, []);
 
-    const fetchDataTrx = useCallback(async (dte, fProduk) => {
+    const fetchDataTrx = useCallback(async (dte) => {
 
         setDataTrx([])
 
@@ -124,9 +124,9 @@ export default function Trx() {
 
     useEffect(() => {
 
-        fetchDataTrx(searchDate, filterProduk)
+        fetchDataTrx(searchDate)
 
-    }, [fetchDataTrx, searchDate, filterProduk]);
+    }, [fetchDataTrx, searchDate]);
 
     useEffect(() => {
 
@@ -202,6 +202,11 @@ export default function Trx() {
         }
     }
 
+    function onSelesai() {
+        fetchDataTrx(searchDate)
+        setShowModal('')
+    }
+
     return (
         <Main>
             <div className="row">
@@ -219,9 +224,9 @@ export default function Trx() {
                             <input value={searchDate} onChange={e => setSearchDate(e.target.value)} type="date" className="form-control" placeholder="date" />
                         </div>
 
-                        <div className="col-lg-2 mb-2">
+                        {/* <div className="col-lg-2 mb-2">
                             <input value={filterProduk} onChange={(e)=>setFilterProduk(e.target.value)} type="text" className="form-control" placeholder="Search Produk" />
-                        </div>
+                        </div> */}
 
                     </div>
 
@@ -478,7 +483,7 @@ export default function Trx() {
                                             </div>
 
                                             <div className="col-sm-12 text-end">
-                                                <button onClick={() => setShowModal('')} className="btn btn-success">
+                                                <button onClick={onSelesai} className="btn btn-success">
                                                     <i className="ti ti-checklist"></i>
                                                     Selesai
                                                 </button>
