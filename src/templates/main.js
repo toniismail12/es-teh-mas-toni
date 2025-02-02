@@ -48,10 +48,10 @@ export default function Main({ children }) {
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">
-                    <div className="card-body">
+    
                       {children}
                       <Analytics />
-                    </div>
+
                   </div>
                 </div>
               </div>

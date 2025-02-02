@@ -7,10 +7,26 @@ import {
     DeleteTrx,
     SaveGrpTrx,
     ChangeStok,
+    GetGrpTrx,
  } from '@/controllers';
 import { Modal } from '@/components'
 import Link from 'next/link';
 import { Select } from 'antd';
+
+function extractDateTime(groupTrx) {
+    // Extract the timestamp part from the group_trx (YYYYMMDDHHMMSS)
+    const match = groupTrx.match(/GTRX(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
+    
+    if (!match) {
+        return null; // Return null if the pattern doesn't match
+    }
+
+    const [, year, month, day, hour, minute, second] = match;
+    
+    // Format the extracted values into a readable datetime string
+    // return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    return `${hour}:${minute}`;
+}
 
 export function getFormattedDateTime() {
   const now = new Date();
@@ -70,7 +86,7 @@ export default function Trx() {
 
         setDataTrx([])
 
-        const res = await GetTrx(dte, fProduk, "", "" ,"rilis");
+        const res = await GetGrpTrx(dte);
 
         if (res !== 'error') {
             setDataTrx(res.data)
@@ -78,7 +94,7 @@ export default function Trx() {
             const dtx = res.data
 
             // Calculate total debit
-            const total = dtx?.reduce((sum, item) => sum + parseInt(item.harga_produk*item.jumlah_beli, 10), 0);
+            const total = dtx?.reduce((sum, item) => sum + parseInt(item.pembayaran, 10), 0);
             setTotal(total);
         }
 
@@ -191,7 +207,7 @@ export default function Trx() {
             <div className="row">
                 <div className='col-lg-12 text-end'>
 
-                    <Link onClick={showForm} href="#" className="btn btn-warning fw-semibold py-8 me-3">
+                    <Link onClick={showForm} href="#" className="btn btn-warning fw-semibold py-8">
                         <i className='ti ti-plus'></i>
                         Tambah Transaksi
                     </Link>
@@ -231,9 +247,20 @@ export default function Trx() {
                                     return (
                                         <tr key={item.id}>
                                             <td>
+                                               
                                                 <div className="">
-                                                    <h6 className="fs-3 fw-semibold mb-0">{i+1}. {item.produk}</h6>
-                                                    <span className="fw-normal ms-3">Rp. {item.harga_produk} x {item.jumlah_beli} = {item.harga_produk*item.jumlah_beli}</span>
+                                                    <h6 className="fs-3 fw-semibold mb-2">{i+1}. {extractDateTime(item.group_trx)}</h6>
+                                                    {item?.Trx.map((itemTrx)=>{
+                                                        return(
+
+                                                            <div key={itemTrx.id} className="mb-1">
+                                                                <h6 className="fs-3 fw-semibold mb-0">{itemTrx.Produk.produk}</h6>
+                                                                <span className="fw-normal">Rp. {itemTrx.Produk.harga} x {itemTrx.jumlah_beli} = {item.pembayaran} <br/></span>
+                                                            </div>
+
+                                                        )
+                                                    })}
+                                                    
                                                 </div>
                                             </td>
 

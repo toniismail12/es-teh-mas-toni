@@ -21,12 +21,13 @@ async function GetGrpTrx(date, group_transaksi) {
 
 }
 
-async function SaveGrpTrx(group_trx, pembayaran, date) {
+async function SaveGrpTrx(group_trx, pembayaran, date, user) {
 
     const data = {
         group_trx: group_trx,
         pembayaran: pembayaran,
         date: date,
+        create_by: user,
     }
 
     // console.log(data)

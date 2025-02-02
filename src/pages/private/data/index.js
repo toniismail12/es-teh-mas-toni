@@ -185,7 +185,7 @@ export default function Data() {
             <div className="row">
                 <div className='col-lg-12 text-end'>
 
-                    <Link onClick={showForm} href="#" className="btn btn-warning fw-semibold py-8 me-3">
+                    <Link onClick={showForm} href="#" className="btn btn-warning fw-semibold py-8">
                         <i className='ti ti-plus'></i>
                         Tambah Data
                     </Link>
