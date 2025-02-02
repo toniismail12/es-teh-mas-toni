@@ -4,6 +4,7 @@ import { GetRelasi, SaveRelasi, DeleteRelasi } from './produk-relasi'
 import { GetTrx, SaveTrx, DeleteTrx, TrxToRilis } from './trx.js'
 import { GetGrpTrx, SaveGrpTrx } from './group-trx'
 import { CheckLogin, Login } from './auth'
+import { GetSummaryTrx } from './summary-trx'
 
 export default GetProduk
 export {
@@ -25,4 +26,5 @@ export {
     ChangeStok,
     CheckLogin, 
     Login,
+    GetSummaryTrx,
 }

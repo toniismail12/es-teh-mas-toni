@@ -8,6 +8,7 @@ import {
     SaveGrpTrx,
     ChangeStok,
     GetGrpTrx,
+    GetSummaryTrx,
  } from '@/controllers';
 import { Modal } from '@/components'
 import Link from 'next/link';
@@ -53,6 +54,7 @@ export default function Trx() {
     const [data, setData] = useState([])
     const [dataProduk, setDataProduk] = useState([])
     const [dataTrx, setDataTrx] = useState([])
+    const [dataSummary, setDataSummary] = useState([])
 
     const [ShowModal, setShowModal] = useState('')
 
@@ -96,6 +98,11 @@ export default function Trx() {
             // Calculate total debit
             const total = dtx?.reduce((sum, item) => sum + parseInt(item.pembayaran, 10), 0);
             setTotal(total);
+        }
+
+        const resSummary = await GetSummaryTrx(dte);
+        if (resSummary !== 'error') {
+            setDataSummary(resSummary?.data)
         }
 
     }, []);
@@ -230,7 +237,7 @@ export default function Trx() {
 
                     </div>
 
-                    <div className="table-responsive mb-4 border rounded-1">
+                    <div className="table-responsive mb-2 border rounded-1">
 
                         <table className="table text-nowrap mb-0 align-middle">
                             <thead className="text-dark fs-4">
@@ -293,6 +300,40 @@ export default function Trx() {
                                     {/* <td><h5 className="fs-5 fw-semibold mb-0">{total}</h5></td> */}
                                 </tr>
 
+                            </tbody>
+
+                        </table>
+                    </div>
+                    
+                </div>
+
+                <div className="col-lg-12 p-3">
+
+                    <div className="table-responsive mb-4 border rounded-1">
+
+                        <table className="table text-nowrap mb-0 align-middle">
+                            <thead className="text-dark fs-4">
+                                <tr>
+                                    <th>
+                                        <h6 className="fs-3 fw-semibold mb-0">Summary</h6>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {dataSummary?.map((item, i) => {
+    
+                                    return (
+                                        <tr key={item.kode_produk}>
+                                            <td>
+                                                <div className="">
+                                                    <h6 className="fs-3 fw-semibold mb-2">{item.produk}</h6>
+                                                    <span className="fw-semibold fs-2">Sold: {item.sold}</span> 
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
 
                         </table>
