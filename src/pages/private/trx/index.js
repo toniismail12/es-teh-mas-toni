@@ -255,11 +255,12 @@ export default function Trx() {
 
                                                             <div key={itemTrx.id} className="mb-1">
                                                                 <h6 className="fs-3 fw-semibold mb-0">{itemTrx.Produk.produk}</h6>
-                                                                <span className="fw-normal">Rp. {itemTrx.Produk.harga} x {itemTrx.jumlah_beli} = {item.pembayaran} <br/></span>
+                                                                <span className="fw-normal">Rp. {itemTrx.Produk.harga} x {itemTrx.jumlah_beli} = {itemTrx.Produk.harga*itemTrx.jumlah_beli} <br/></span>
                                                             </div>
 
                                                         )
                                                     })}
+                                                    <span className="fw-semibold">Cash: {item.pembayaran}</span> 
                                                     
                                                 </div>
                                             </td>
