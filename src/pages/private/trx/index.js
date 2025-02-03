@@ -65,10 +65,10 @@ export default function Trx() {
     const [jumlahBeli, setJumlahBeli] = useState(1)
 
     const [total, setTotal] = useState(0)
+    const [totalSummary, setTotalSummary] = useState(0)
     const [totalBelanja, setTotalBelanja] = useState(0)
 
     // filter
-    const [filterProduk, setFilterProduk] = useState('')
     const [searchProduk, setSearchProduk] = useState('')
     const [searchDate, setSearchDate] = useState(currentDate)
 
@@ -103,6 +103,10 @@ export default function Trx() {
         const resSummary = await GetSummaryTrx(dte);
         if (resSummary !== 'error') {
             setDataSummary(resSummary?.data)
+
+            // Calculate total debit
+            const totalSummary = resSummary?.data?.reduce((sum, item) => sum + parseInt(item.sold, 10), 0);
+            setTotalSummary(totalSummary);
         }
 
     }, []);
@@ -261,7 +265,9 @@ export default function Trx() {
                                             <td>
                                                
                                                 <div className="">
-                                                    <h6 className="fs-3 fw-semibold mb-2">{i+1}. {extractDateTime(item.group_trx)}</h6>
+                                                    <div className="text-end">
+                                                        <h6 className="fs-3 fw-semibold mb-2">No. {1+i} / Jam {extractDateTime(item.group_trx)}</h6>
+                                                    </div>
                                                     {item?.Trx.map((itemTrx)=>{
                                                         return(
 
@@ -326,14 +332,22 @@ export default function Trx() {
                                         <tr key={item.kode_produk}>
                                             <td>
                                                 <div className="">
-                                                    <h6 className="fs-3 fw-semibold mb-2">{item.produk}</h6>
-                                                    <span className="fw-semibold fs-2">Sold: {item.sold}</span> 
+                                                    <span className="fs-3 fw-semibold">{i+1}. {item.produk}</span>
+                                                    <br/>
+                                                    <div className="text-end">
+                                                        <span className="fw-semibold fs-3">Sold: {item.sold}</span> 
+                                                    </div>
                                                 </div>
                                             </td>
 
                                         </tr>
                                     )
+                                    
                                 })}
+                                <tr>
+                                    <td className='text-end'><h6 className="fs-4 fw-semibold mb-0">Total Sold: {totalSummary}</h6></td>
+                                </tr>
+
                             </tbody>
 
                         </table>
