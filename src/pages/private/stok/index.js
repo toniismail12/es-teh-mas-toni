@@ -3,9 +3,11 @@ import { useEffect, useState, useCallback } from 'react';
 import { GetStok, SaveStok, DeleteStok } from '@/controllers';
 import { Modal } from '@/components'
 import Link from 'next/link';
+import { LS } from '@/utils'
 
 export default function Stok() {
 
+    const [user, setUser] = useState("")
     const [datas, setData] = useState([])
     const [ShowModal, setShowModal] = useState('')
 
@@ -33,6 +35,7 @@ export default function Stok() {
 
     useEffect(() => {
 
+        setUser(LS("username"))
         fetchData(f_name);
 
     }, [fetchData, f_name]);
@@ -70,11 +73,12 @@ export default function Stok() {
         <Main>
             <div className="row">
                 <div className='col-lg-12 text-end'>
-
-                    <Link onClick={() => showForm("", [])} href="#" className="btn btn-warning fw-semibold py-8">
-                        <i className='ti ti-plus'></i>
-                        Tambah Data
-                    </Link>
+                    {user === "toni" &&
+                        <Link onClick={() => showForm("", [])} href="#" className="btn btn-warning fw-semibold py-8">
+                            <i className='ti ti-plus'></i>
+                            Tambah Data
+                        </Link>
+                    }
 
                 </div>
                 <div className="col-lg-12 mt-2">
@@ -100,9 +104,11 @@ export default function Stok() {
                                     <th>
                                         <h6 className="fs-4 fw-semibold mb-0">Stok</h6>
                                     </th>
-                                    <th>
-                                        <h6 className="fs-4 fw-semibold mb-0"></h6>
-                                    </th>
+                                    {user === "toni" &&
+                                        <th>
+                                            <h6 className="fs-4 fw-semibold mb-0"></h6>
+                                        </th>
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,15 +135,17 @@ export default function Stok() {
                                                 </div>
                                             </td>
 
-                                            <td>
-                                                <button onClick={() => showForm(item.id, item)} className="btn btn-success me-2">
-                                                    <i className="ti ti-pencil"></i>
-                                                </button>
+                                            {user === "toni"&&
+                                                <td>
+                                                    <button onClick={() => showForm(item.id, item)} className="btn btn-success me-2">
+                                                        <i className="ti ti-pencil"></i>
+                                                    </button>
 
-                                                <button onClick={() => RemoveStok(item)} className="btn btn-danger">
-                                                    <i className="ti ti-x"></i>
-                                                </button>
-                                            </td>
+                                                    <button onClick={() => RemoveStok(item)} className="btn btn-danger">
+                                                        <i className="ti ti-x"></i>
+                                                    </button>
+                                                </td>
+                                            }
 
                                         </tr>
                                     )

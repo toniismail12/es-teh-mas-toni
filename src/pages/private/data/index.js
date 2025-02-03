@@ -287,22 +287,34 @@ export default function Data() {
                                             </label>
                                             <div className="col-sm-9">
                                                 <div className="input-group border rounded-1">
-                                                    <select 
-                                                        value={kode}
-                                                        onChange={(e) => setKode(e.target.value)}
-                                                        name="Kode"
-                                                        type="text"
-                                                        className="form-control-select border-0 ps-2"
-                                                        placeholder="Kode"
-                                                        disabled={mode === "update" ? true : false}
-                                                    >
-                                                        <option value="ET">ET</option>
-                                                        <option value="WR">WR</option>
-                                                    </select>
+                                                    {mode === "create" &&
+                                                        <select 
+                                                            value={kode}
+                                                            onChange={(e) => setKode(e.target.value)}
+                                                            name="Kode"
+                                                            type="text"
+                                                            className="form-control-select border-0 ps-2"
+                                                            placeholder="Kode"
+                                                            disabled={mode === "update" ? true : false}
+                                                        >
+                                                            <option value="ET">ET</option>
+                                                            <option value="WR">WR</option>
+                                                        </select>
+                                                    }
                                                         
                                                     {mode === "create" &&
                                                         <input
                                                             value={lastId}
+                                                            name="Kode"
+                                                            type="text"
+                                                            className="form-control ps-2 border"
+                                                            placeholder="Kode"
+                                                            disabled
+                                                        />
+                                                    }
+                                                    {mode === "update" &&
+                                                        <input
+                                                            value={kode}
                                                             name="Kode"
                                                             type="text"
                                                             className="form-control ps-2 border"

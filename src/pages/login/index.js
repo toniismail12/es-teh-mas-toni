@@ -20,6 +20,7 @@ export default function PageLogin() {
 
             localStorage.setItem('token', res.token);
             localStorage.setItem('name', res.name);
+            localStorage.setItem('username', username);
 
             setLoading('hide')
 
