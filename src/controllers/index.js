@@ -1,4 +1,4 @@
-import { GetStok, SaveStok, DeleteStok, ChangeStok } from './stok'
+import { GetStok, SaveStok, DeleteStok, ChangeStok, RekapStok, GetRekapStok } from './stok'
 import { GetProduk, SaveProduk, DeleteProduk } from './produk'
 import { GetRelasi, SaveRelasi, DeleteRelasi } from './produk-relasi'
 import { GetTrx, SaveTrx, DeleteTrx, TrxToRilis } from './trx.js'
@@ -27,4 +27,6 @@ export {
     CheckLogin, 
     Login,
     GetSummaryTrx,
+    RekapStok, 
+    GetRekapStok,
 }

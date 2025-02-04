@@ -10,7 +10,6 @@ import {
     DeleteRelasi,
 } from '@/controllers';
 import { Modal } from '@/components'
-import Link from 'next/link';
 import { Select } from 'antd';
 
 export default function Data() {
@@ -185,10 +184,10 @@ export default function Data() {
             <div className="row">
                 <div className='col-lg-12 text-end'>
 
-                    <Link onClick={showForm} href="#" className="btn btn-warning fw-semibold py-8">
-                        <i className='ti ti-plus'></i>
+                    <button onClick={showForm} className="btn btn-warning fw-semibold py-8">
+                        <i className='ti ti-plus fs-4'></i>
                         Tambah Data
-                    </Link>
+                    </button>
 
                 </div>
                 <div className="col-lg-12 p-3">

@@ -26,10 +26,10 @@ export default function Main({ children }) {
   }, [fetchData]);
 
   const tabs = [
-    { href: "/", icon: "ti ti-dashboard fs-4", label: "Home" },
-    { href: "/private/trx", icon: "ti ti-currency-dollar fs-4", label: "Transaksi" },
-    { href: "/private/data", icon: "ti ti-barcode fs-4", label: "Produk" },
-    { href: "/private/stok", icon: "ti ti-database", label: "Stok" },
+    { href: "/", icon: "ti ti-dashboard fs-7", label: "Home" },
+    { href: "/private/trx", icon: "ti ti-currency-dollar fs-7", label: "Transaksi" },
+    { href: "/private/data", icon: "ti ti-barcode fs-7", label: "Produk" },
+    { href: "/private/stok", icon: "ti ti-database fs-7", label: "Stok" },
   ];
 
   return (
@@ -65,7 +65,7 @@ export default function Main({ children }) {
                 <li key={index} className="nav-item flex-fill text-center border">
                   <Link className={`nav-link ${tab.href === pathname ? "active" : ""}`} href={tab.href}>
                     <i className={tab.icon} />
-                    <span className="d-block d-md-none">{tab.label}</span>
+                    <span className="d-block d-md-none fs-3">{tab.label}</span>
                   </Link>
                 </li>
               ))}

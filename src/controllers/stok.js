@@ -87,5 +87,48 @@ async function DeleteStok(id) {
 
 }
 
+async function RekapStok(date) {
+
+    const data = {
+        date: date,
+    }
+
+    // console.log(data)
+
+    try {
+        const res = await svc_iam.post("/tn/rekap-stok", data);
+        // console.log('Response:', res);
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert("error update")
+        return "error"
+    }
+
+}
+
+async function GetRekapStok(date) {
+
+    const config = {
+        params: { 
+            date: date,
+        },
+    }
+
+    // console.log(data)
+
+    try {
+        const res = await svc_iam.get("/tn/rekap-stok", config);
+        // console.log('Response:', res);
+        return res.data
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert("error update")
+        return "error"
+    }
+
+}
+
 export default GetStok
-export { GetStok, SaveStok, DeleteStok, ChangeStok }
+export { GetStok, SaveStok, DeleteStok, ChangeStok, RekapStok, GetRekapStok }

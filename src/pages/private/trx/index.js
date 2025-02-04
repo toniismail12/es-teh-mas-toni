@@ -11,7 +11,6 @@ import {
     GetSummaryTrx,
  } from '@/controllers';
 import { Modal } from '@/components'
-import Link from 'next/link';
 import { Select } from 'antd';
 
 function extractDateTime(groupTrx) {
@@ -45,6 +44,8 @@ export function getFormattedDateTime() {
 }
 
 export default function Trx() {
+
+    const [loading, setLoading] = useState("")
 
     // Get the current date
     const now = new Date();
@@ -176,26 +177,30 @@ export default function Trx() {
 
     async function submitFormTambah() {
 
+        setLoading("show")
+
         if (!date) {
             return alert("Pilih tanggal transaksi.")
-        }
-        if (!kodeProduk) {
+        } else if (!kodeProduk) {
             return alert("Pilih produk terlebih dahulu.")
-        }
-        if (jumlahBeli < 1) {
+        } else if (jumlahBeli < 1) {
             return alert("Jumlah beli minimal 1.")
+        } else {
+
+            const res = await SaveTrx(date, groupTransaksi, kodeProduk, jumlahBeli)
+            if (res !== "error") {
+    
+                await ChangeStok(kodeProduk, jumlahBeli, "reduce")
+    
+                fetchData(groupTransaksi)
+                fetchDataTrx(date)
+    
+                setJumlahBeli(1)
+            }
         }
 
-        const res = await SaveTrx(date, groupTransaksi, kodeProduk, jumlahBeli)
-        if (res !== "error") {
 
-            await ChangeStok(kodeProduk, jumlahBeli, "reduce")
-
-            fetchData(groupTransaksi)
-            fetchDataTrx(date)
-
-            setJumlahBeli(1)
-        }
+        setLoading("")
 
     }
 
@@ -223,10 +228,10 @@ export default function Trx() {
             <div className="row">
                 <div className='col-lg-12 text-end'>
 
-                    <Link onClick={showForm} href="#" className="btn btn-warning fw-semibold py-8">
-                        <i className='ti ti-plus'></i>
+                    <button onClick={showForm} className="btn btn-warning fw-semibold py-8">
+                        <i className='ti ti-plus fs-4'></i>
                         Tambah Transaksi
-                    </Link>
+                    </button>
 
                 </div>
                 <div className="col-lg-12 p-3">
@@ -479,10 +484,21 @@ export default function Trx() {
                                         <div className="row">
                                             <div className="col-sm-3" />
                                             <div className="col-sm-9 text-end">
-                                                <button onClick={submitFormTambah} className="btn btn-primary">
-                                                    <i className="ti ti-brand-cashapp"></i>
-                                                    Simpan
-                                                </button>
+
+                                                {loading == "" &&
+                                                    <button onClick={submitFormTambah} className="btn btn-primary">
+                                                        <i className="ti ti-check fs-3 me-1"></i>
+                                                        Simpan
+                                                    </button>
+                                                }
+                                                {loading == "show" &&
+                                                    <button className="btn btn-primary">
+                                                        <div className="spinner-border" role="status">
+                                                            <span className="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </button>
+                                                }
+
                                             </div>
                                         </div>
 
