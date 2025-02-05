@@ -228,9 +228,8 @@ export default function Trx() {
             <div className="row">
                 <div className='col-lg-12 text-end'>
 
-                    <button onClick={showForm} className="btn btn-warning fw-semibold py-8">
-                        <i className='ti ti-plus fs-4'></i>
-                        Tambah Transaksi
+                    <button onClick={showForm} className="btn btn-warning fw-semibold py-8 floating-button">
+                        <i className='ti ti-plus fs-7 fw-semibold'></i>
                     </button>
 
                 </div>
@@ -264,6 +263,8 @@ export default function Trx() {
                             </thead>
                             <tbody>
                                 {dataTrx?.map((item, i) => {
+                                    
+                                    const indexDesc = dataTrx.length - i;
     
                                     return (
                                         <tr key={item.id}>
@@ -271,7 +272,7 @@ export default function Trx() {
                                                
                                                 <div className="">
                                                     <div className="text-end">
-                                                        <h6 className="fs-3 fw-semibold mb-2">No. {1+i} / Jam {extractDateTime(item.group_trx)}</h6>
+                                                        <h6 className="fs-3 fw-semibold mb-2">No. {indexDesc} / Jam {extractDateTime(item.group_trx)}</h6>
                                                     </div>
                                                     {item?.Trx.map((itemTrx)=>{
                                                         return(
@@ -307,7 +308,7 @@ export default function Trx() {
                                     )
                                 })}
                                 <tr>
-                                    <td><h6 className="fs-4 fw-semibold mb-0">Total : {total}</h6></td>
+                                    <td><h6 className="fs-3 fw-semibold mb-0">Total: {total}</h6></td>
                                     {/* <td><h5 className="fs-5 fw-semibold mb-0">{total}</h5></td> */}
                                 </tr>
 
@@ -350,7 +351,7 @@ export default function Trx() {
                                     
                                 })}
                                 <tr>
-                                    <td className='text-end'><h6 className="fs-4 fw-semibold mb-0">Total Sold: {totalSummary}</h6></td>
+                                    <td className='text-end'><h6 className="fs-3 fw-semibold mb-0">Total Sold: {totalSummary}</h6></td>
                                 </tr>
 
                             </tbody>

@@ -7,7 +7,7 @@ export default function Home() {
         <Main>
 
             <div className="row">
-                <div className="col-lg-12">
+                <div className="col-lg-12 p-3">
                     Welcome to Es Teh Mas Toni
                 </div>
             </div>

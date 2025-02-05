@@ -4,7 +4,7 @@ export default function Modal({show, title, onClose, body}) {
     
     return (
         <div
-            className={`modal fade ${show}`}
+            className={`modal fade ${show} bg-white`}
             id="modal"
             style={{ display: show === 'show' ? 'block' : 'none' }}
         >

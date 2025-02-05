@@ -128,9 +128,8 @@ export default function Stok() {
                     </button>
 
                     {user === "toni" &&
-                        <button onClick={() => showForm("", [])} className="btn btn-warning btn-sm fw-semibold py-8 ms-2 mt-2">
-                            <i className='ti ti-plus fs-4'></i>
-                            Tambah Data
+                        <button onClick={() => showForm("", [])} className="btn btn-warning fw-semibold py-8 floating-button">
+                            <i className='ti ti-plus fs-7 fw-semibold'></i>
                         </button>
                     }
 

@@ -26,8 +26,9 @@ export default function Main({ children }) {
   }, [fetchData]);
 
   const tabs = [
-    { href: "/", icon: "ti ti-dashboard fs-7", label: "Home" },
-    { href: "/private/trx", icon: "ti ti-currency-dollar fs-7", label: "Transaksi" },
+    { href: "/", icon: "ti ti-home fs-7", label: "Home" },
+    { href: "/private/trx", icon: "ti ti-cash fs-7", label: "Penjualan" },
+    { href: "/private/pengeluaran", icon: "ti ti-arrows-exchange fs-7", label: "Pengeluaran" },
     { href: "/private/data", icon: "ti ti-barcode fs-7", label: "Produk" },
     { href: "/private/stok", icon: "ti ti-database fs-7", label: "Stok" },
   ];
@@ -62,10 +63,10 @@ export default function Main({ children }) {
           <div className="bottom-nav">
             <ul className="nav nav-tabs d-flex justify-content-around">
               {tabs.map((tab, index) => (
-                <li key={index} className="nav-item flex-fill text-center border">
+                <li key={index} className="nav-item flex-fill text-center">
                   <Link className={`nav-link ${tab.href === pathname ? "active" : ""}`} href={tab.href}>
                     <i className={tab.icon} />
-                    <span className="d-block d-md-none fs-3">{tab.label}</span>
+                    <span className="d-block d-md-none fs-1">{tab.label}</span>
                   </Link>
                 </li>
               ))}
@@ -74,20 +75,6 @@ export default function Main({ children }) {
         </div>
       </div>
 
-      <style jsx>{`
-        .bottom-nav {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          background-color: #fff;
-          box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-          z-index: 1030;
-        }
-        .nav-tabs .nav-link {
-          padding: 10px 0;
-        }
-      `}</style>
     </>
   );
 }

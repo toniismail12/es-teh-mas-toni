@@ -184,9 +184,8 @@ export default function Data() {
             <div className="row">
                 <div className='col-lg-12 text-end'>
 
-                    <button onClick={showForm} className="btn btn-warning fw-semibold py-8">
-                        <i className='ti ti-plus fs-4'></i>
-                        Tambah Data
+                    <button onClick={showForm} className="btn btn-warning fw-semibold py-8 floating-button">
+                        <i className='ti ti-plus fs-7 fw-semibold'></i>
                     </button>
 
                 </div>
