@@ -5,6 +5,7 @@ import { GetTrx, SaveTrx, DeleteTrx, TrxToRilis } from './trx.js'
 import { GetGrpTrx, SaveGrpTrx } from './group-trx'
 import { CheckLogin, Login } from './auth'
 import { GetSummaryTrx } from './summary-trx'
+import { GetPengeluaran, SavePengeluaran, DeletePengeluaran } from './pengeluaran'
 
 export default GetProduk
 export {
@@ -29,4 +30,7 @@ export {
     GetSummaryTrx,
     RekapStok, 
     GetRekapStok,
+    GetPengeluaran,
+    SavePengeluaran,
+    DeletePengeluaran,
 }
