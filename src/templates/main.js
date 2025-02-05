@@ -48,12 +48,14 @@ export default function Main({ children }) {
             <div className="container-fluid">
               <div className="row">
                 <div className="col-md-12">
-                  <div className="card">
+                  {children}
+                  <Analytics />
+                  {/* <div className="card">
     
                       {children}
                       <Analytics />
 
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
