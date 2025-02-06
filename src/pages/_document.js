@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="horizontal" data-boxed-layout="boxed" data-card="shadow" >
       <Head >
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#def107" />
+        <meta name="theme-color" content="#fff" />
       </Head>
       <body>
         <Main />
