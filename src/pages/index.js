@@ -6,24 +6,38 @@ import { LS } from '@/utils'
 import { GetReportMonthly, GetSaldo } from '@/controllers';
 import { BarChartMonthly } from '@/components'
 
+function formatRupiah(amount) {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0
+    }).format(amount);
+}
+
 export default function Home() {
 
     const [user, setUser] = useState("")
+    const [username, setUsername] = useState("")
     const [datas, setData] = useState([])
 
-    const [month, setMonth] = useState("")
-    const [year, setYear] = useState("")
+    const now = new Date();
+    const year = now.getFullYear();
+    const monthh = String(now.getMonth() + 1).padStart(2, "0"); // Ensure two digits
+
+    const [month, setMonth] = useState(year+"-"+monthh)
+    const [pemasukan, setPemasukan] = useState("")
+    const [pengeluaran, setPengeluaran] = useState("")
 
     const fetchData = useCallback(async (mnt, yr) => {
 
-        setData([])
+        // setData([])
 
         const res = await GetReportMonthly(mnt, yr);
 
         if (res !== 'error') {
-            setData(res.data)
+            setData(res?.data)
 
-            const dtx = res.data
+            // const dtx = res.data
 
             // Calculate total pengeluaran
             // const total = dtx?.reduce((sum, item) => sum + parseInt(item.nominal, 10), 0);
@@ -33,12 +47,30 @@ export default function Home() {
 
     }, []);
 
+    const fetchDataSaldo = useCallback(async () => {
+
+        const res = await GetSaldo();
+
+        if (res !== 'error') {
+            setPemasukan(res?.pemasukan)
+            setPengeluaran(res?.pengeluaran)
+
+        }
+
+    }, []);
+
+
     useEffect(() => {
 
         setUser(LS("name"))
-        fetchData(month, year)
+        setUsername(LS("username"))
 
-    }, [fetchData, month, year]);
+        const dateStr = month;
+        const [thn, bln] = dateStr?.split("-");
+        fetchData(bln, thn)
+        fetchDataSaldo()
+
+    }, [fetchData, month, fetchDataSaldo]);
 
     return (
         <Main>
@@ -48,13 +80,51 @@ export default function Home() {
                     <div className="d-flex align-items-center gap-2 mb-4">
                         <div className="position-relative">
                             <div className="border border-2 border-primary rounded-circle">
-                                <Image
-                                    src="/assets/images/profile/user-1.jpg"
-                                    className="rounded-circle m-0"
-                                    alt="user1"
-                                    height={50}
-                                    width={50}
-                                />
+                                {username == "erla" &&
+                                    <Image
+                                        src="/assets/images/profile/user-6.jpg"
+                                        className="rounded-circle m-0"
+                                        alt="user1"
+                                        height={50}
+                                        width={50}
+                                    />
+                                }
+                                {username == "tiara" &&
+                                    <Image
+                                        src="/assets/images/profile/user-6.jpg"
+                                        className="rounded-circle m-0"
+                                        alt="user1"
+                                        height={50}
+                                        width={50}
+                                    />
+                                }
+                                {username == "toni" &&
+                                    <Image
+                                        src="/assets/images/profile/user-1.jpg"
+                                        className="rounded-circle m-0"
+                                        alt="user1"
+                                        height={50}
+                                        width={50}
+                                    />
+                                }
+                                {username == "toni_mobile" &&
+                                    <Image
+                                        src="/assets/images/profile/user-1.jpg"
+                                        className="rounded-circle m-0"
+                                        alt="user1"
+                                        height={50}
+                                        width={50}
+                                    />
+                                }
+                                {username == "riski" &&
+                                    <Image
+                                        src="/assets/images/profile/user-1.jpg"
+                                        className="rounded-circle m-0"
+                                        alt="user1"
+                                        height={50}
+                                        width={50}
+                                    />
+                                }
                             </div>
                         </div>
                         <div>
@@ -73,7 +143,7 @@ export default function Home() {
                             <i className="ti ti-wallet text-primary fs-6" />
                         </div>
                         <div>
-                            <h4 className="mb-0 fs-4 fw-semibold">Rp. 63.489.350</h4>
+                            <h4 className="mb-0 fs-4 fw-semibold">{formatRupiah(pemasukan-pengeluaran)}</h4>
                             <p className="fs-2 mb-0">Total Saldo</p>
                         </div>
                     </div>
@@ -84,7 +154,7 @@ export default function Home() {
                             </div>
                             <div>
                                 <p className="fs-2 mb-0 fw-normal">Pemasukan</p>
-                                <h6 className="fw-semibold text-dark fs-4 mb-0">3.489,350</h6>
+                                <h6 className="fw-semibold text-dark fs-4 mb-0">{formatRupiah(pemasukan)}</h6>
                             </div>
                         </div>
                         <div className="d-flex align-items-center">
@@ -93,16 +163,16 @@ export default function Home() {
                             </div>
                             <div>
                                 <p className="fs-2 mb-0 fw-normal">Pengeluaran</p>
-                                <h6 className="fw-semibold text-dark fs-4 mb-0">1.489,350</h6>
+                                <h6 className="fw-semibold text-dark fs-4 mb-0">{formatRupiah(pengeluaran)}</h6>
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <div className="col-lg-12 mt-3">
-                    <div className="mb-2">
-                        <input type="month" className="form-control form-control-sm" />
+                <div className="col-lg-12 mt-3 border rounded">
+                    <div className="mb-2 mt-2">
+                        <input type="month" value={month} onChange={e=>setMonth(e.target.value)} className="form-control form-control-date form-control-sm" />
                     </div>
                     <BarChartMonthly datas={datas} />
                 </div>

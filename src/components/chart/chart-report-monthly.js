@@ -9,9 +9,9 @@ export default function BarChartMonthly({datas}) {
         datas
     };
 
-    const labels = data?.datas.map((item) => new Date(item.date).toLocaleDateString('id-ID', { month: 'short', day: 'numeric' }));
-    const pemasukan = data?.datas.map((item) => item.total_pemasukan);
-    const pengeluaran = data?.datas.map((item) => item.total_pengeluaran);
+    const labels = data?.datas?.map((item) => new Date(item.date).toLocaleDateString('id-ID', { month: 'short', day: 'numeric' }));
+    const pemasukan = data?.datas?.map((item) => item.total_pemasukan);
+    const pengeluaran = data?.datas?.map((item) => item.total_pengeluaran);
 
     const chartData = {
         labels,
