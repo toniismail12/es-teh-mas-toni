@@ -6,6 +6,7 @@ import { GetGrpTrx, SaveGrpTrx } from './group-trx'
 import { CheckLogin, Login } from './auth'
 import { GetSummaryTrx } from './summary-trx'
 import { GetPengeluaran, SavePengeluaran, DeletePengeluaran } from './pengeluaran'
+import { GetReportMonthly, GetSaldo } from './dashboard' 
 
 export default GetProduk
 export {
@@ -33,4 +34,6 @@ export {
     GetPengeluaran,
     SavePengeluaran,
     DeletePengeluaran,
+    GetReportMonthly, 
+    GetSaldo,
 }

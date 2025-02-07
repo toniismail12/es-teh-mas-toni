@@ -1,18 +1,44 @@
 import React from 'react';
 import { Main } from '@/templates';
 import Image from 'next/image'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { LS } from '@/utils'
+import { GetReportMonthly, GetSaldo } from '@/controllers';
+import { BarChartMonthly } from '@/components'
 
 export default function Home() {
 
     const [user, setUser] = useState("")
+    const [datas, setData] = useState([])
+
+    const [month, setMonth] = useState("")
+    const [year, setYear] = useState("")
+
+    const fetchData = useCallback(async (mnt, yr) => {
+
+        setData([])
+
+        const res = await GetReportMonthly(mnt, yr);
+
+        if (res !== 'error') {
+            setData(res.data)
+
+            const dtx = res.data
+
+            // Calculate total pengeluaran
+            // const total = dtx?.reduce((sum, item) => sum + parseInt(item.nominal, 10), 0);
+            // setTotalPengeluaran(total);
+
+        }
+
+    }, []);
 
     useEffect(() => {
 
         setUser(LS("name"))
+        fetchData(month, year)
 
-    }, []);
+    }, [fetchData, month, year]);
 
     return (
         <Main>
@@ -72,6 +98,13 @@ export default function Home() {
                         </div>
                     </div>
 
+                </div>
+
+                <div className="col-lg-12 mt-3">
+                    <div className="mb-2">
+                        <input type="month" className="form-control form-control-sm" />
+                    </div>
+                    <BarChartMonthly datas={datas} />
                 </div>
 
             </div>
