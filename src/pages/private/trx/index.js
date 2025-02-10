@@ -245,6 +245,27 @@ export default function Trx() {
 
                     </div>
 
+                    <div className="d-flex align-items-center justify-content-between mb-2 border p-2 rounded">
+                        <div className="d-flex align-items-center">
+                            <div className="bg-success-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                                <i className="ti ti-cash text-success fs-6" />
+                            </div>
+                            <div>
+                                <p className="fs-2 mb-0 fw-normal">Total Cash</p>
+                                <h6 className="fw-semibold text-dark fs-4 mb-0">{total}</h6>
+                            </div>
+                        </div>
+                        <div className="d-flex align-items-center">
+                            <div className="bg-primary-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                                <i className="ti ti-arrow-up text-primary fs-6" />
+                            </div>
+                            <div>
+                                <p className="fs-2 mb-0 fw-normal">Item Terjual</p>
+                                <h6 className="fw-semibold text-dark fs-4 mb-0">{totalSummary}</h6>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="table-responsive mb-2 border rounded-1">
 
                         <table className="table text-nowrap mb-0 align-middle">
