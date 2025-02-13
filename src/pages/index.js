@@ -25,8 +25,18 @@ export default function Home() {
     const monthh = String(now.getMonth() + 1).padStart(2, "0"); // Ensure two digits
 
     const [month, setMonth] = useState(year+"-"+monthh)
+    
+    // Get the current date
+    // Format the current date as YYYY-MM-DD
+    const currentDate = now.toISOString().slice(0, 10);
+
+    const [date, setDate] = useState(currentDate)
+
     const [pemasukan, setPemasukan] = useState("")
     const [pengeluaran, setPengeluaran] = useState("")
+
+    const [pemasukanToday, setPemasukanToday] = useState("")
+    const [pengeluaranToday, setPengeluaranToday] = useState("")
 
     const fetchData = useCallback(async (mnt, yr) => {
 
@@ -59,6 +69,17 @@ export default function Home() {
 
     }, []);
 
+    const fetchDataSaldoDay = useCallback(async (dt) => {
+
+        const res = await GetSaldo(dt);
+
+        if (res !== 'error') {
+            setPemasukanToday(res?.pemasukan)
+            setPengeluaranToday(res?.pengeluaran)
+
+        }
+
+    }, []);
 
     useEffect(() => {
 
@@ -70,7 +91,9 @@ export default function Home() {
         fetchData(bln, thn)
         fetchDataSaldo()
 
-    }, [fetchData, month, fetchDataSaldo]);
+        fetchDataSaldoDay(date)
+
+    }, [fetchData, month, fetchDataSaldo, fetchDataSaldoDay, date]);
 
     return (
         <Main>
@@ -170,6 +193,44 @@ export default function Home() {
 
                 </div>
 
+                <div className="col-lg-12 mt-3 border rounded py-3">
+                    
+                    <div className="mb-2">
+                        <input type="date" value={date} onChange={e=>setDate(e.target.value)} className="form-control form-control-date form-control-sm" />
+                    </div>
+
+                    <div className="hstack mb-4">
+                        <div className="p-8 bg-primary-subtle rounded-1 me-2 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-wallet text-primary fs-6" />
+                        </div>
+                        <div>
+                            <h4 className="mb-0 fs-4 fw-semibold">{formatRupiah(pemasukanToday-pengeluaranToday)}</h4>
+                            <p className="fs-2 mb-0">Selisih</p>
+                        </div>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between">
+                        <div className="d-flex align-items-center">
+                            <div className="bg-success-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                                <i className="ti ti-arrow-up-right text-success fs-6" />
+                            </div>
+                            <div>
+                                <p className="fs-2 mb-0 fw-normal">Pemasukan</p>
+                                <h6 className="fw-semibold text-dark fs-4 mb-0">{formatRupiah(pemasukanToday)}</h6>
+                            </div>
+                        </div>
+                        <div className="d-flex align-items-center">
+                            <div className="bg-danger-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                                <i className="ti ti-arrow-down-left text-danger fs-6" />
+                            </div>
+                            <div>
+                                <p className="fs-2 mb-0 fw-normal">Pengeluaran</p>
+                                <h6 className="fw-semibold text-dark fs-4 mb-0">{formatRupiah(pengeluaranToday)}</h6>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                
                 <div className="col-lg-12 mt-3 border rounded">
                     <div className="mb-2 mt-2">
                         <input type="month" value={month} onChange={e=>setMonth(e.target.value)} className="form-control form-control-date form-control-sm" />

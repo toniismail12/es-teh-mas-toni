@@ -265,7 +265,7 @@ export default function Trx() {
                             </div>
                         </div>
                     </div>
-
+                    
                     <div className="table-responsive mb-2 border rounded-1">
 
                         <table className="table text-nowrap mb-0 align-middle">

@@ -21,12 +21,11 @@ async function GetReportMonthly(month, year) {
 
 }
 
-async function GetSaldo(month, year) {
+async function GetSaldo(date) {
 
     const config = {
         params: { 
-            month: month,
-            year: year,
+            date: date,
         },
     }
 

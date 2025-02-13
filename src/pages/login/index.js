@@ -45,7 +45,7 @@ export default function PageLogin() {
                             <div className="card mb-0">
                                 <div className="card-body pt-5">
                                     <div className="mb-3">
-                                        <label htmlFor="exampleInputEmail1" className="form-label">
+                                        <label className="form-label">
                                             Username
                                         </label>
                                         <input
@@ -56,7 +56,7 @@ export default function PageLogin() {
                                         />
                                     </div>
                                     <div className="mb-4">
-                                        <label htmlFor="exampleInputPassword1" className="form-label">
+                                        <label className="form-label">
                                             Password
                                         </label>
                                         <input
