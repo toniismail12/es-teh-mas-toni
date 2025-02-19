@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { useEffect, useCallback } from 'react';
 import { CheckLogin } from '@/controllers';
 import { Analytics } from '@vercel/analytics/next';
+import Script from "next/script";
 
 export default function Main({ children }) {
 
@@ -22,6 +23,7 @@ export default function Main({ children }) {
   useEffect(() => {
 
     fetchData();
+    // Clarity.init("qc1pe517fb");
 
   }, [fetchData]);
 
@@ -41,6 +43,16 @@ export default function Main({ children }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/assets/images/rating/star-on.png" />
       </Head>
+
+      <Script id="microsoft-clarity-analytics">
+        {`
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "qc1pe517fb");
+        `}
+      </Script>
 
       <div id="main-wrapper">
         <div className="page-wrapper">
