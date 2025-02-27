@@ -44,7 +44,7 @@ export default function Main({ children }) {
           <link rel="icon" href="/assets/images/rating/star-on.png" />
       </Head>
 
-      <Script id="microsoft-clarity-analytics">
+      {/* <Script id="microsoft-clarity-analytics">
         {`
             (function(c,l,a,r,i,t,y){
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -52,7 +52,7 @@ export default function Main({ children }) {
                 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
             })(window, document, "clarity", "script", "qc1pe517fb");
         `}
-      </Script>
+      </Script> */}
 
       <div id="main-wrapper">
         <div className="page-wrapper">

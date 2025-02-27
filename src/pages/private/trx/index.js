@@ -114,6 +114,8 @@ export default function Trx() {
 
     const fetchData = useCallback(async (grtrx) => {
 
+        setLoading("show")
+
         setData([])
 
         const res = await GetTrx("", "", grtrx, "" ,"");
@@ -126,13 +128,11 @@ export default function Trx() {
             // Calculate total belanja
             const total = dtx?.reduce((sum, item) => sum + parseInt(item.harga_produk*item.jumlah_beli, 10), 0);
             setTotalBelanja(total);
-
-            if(total > 0){
-                await SaveGrpTrx(grtrx, total, date)
-            }
+            setLoading("")
         }
+        setLoading("")
 
-    }, [date]);
+    }, []);
 
     useEffect(() => {
 
@@ -146,7 +146,7 @@ export default function Trx() {
 
     }, [fetchDataProduk, searchProduk]);
 
-    function showForm() {
+    async function showForm() {
 
         const gtrx = getFormattedDateTime()
 
@@ -156,7 +156,7 @@ export default function Trx() {
 
         setJumlahBeli(1)
 
-        setShowModal("show")
+        setShowModal('show')
 
     }
 
@@ -199,7 +199,6 @@ export default function Trx() {
             }
         }
 
-
         setLoading("")
 
     }
@@ -208,14 +207,15 @@ export default function Trx() {
     async function RemoveTrx(item) {
         const cnf = confirm("Delete " + item.produk + "?");
         if (cnf) {
-            DeleteTrx(item.id)
-            fetchDataTrx(searchDate);
+            await DeleteTrx(item.id)
 
-            fetchDataTrx(date)
             fetchData(groupTransaksi)
 
             await ChangeStok(item.kode_produk, item.jumlah_beli, "add")
         }
+
+        fetchData(groupTransaksi)
+        // fetchDataTrx(date)
     }
 
     function onSelesai() {
@@ -296,6 +296,7 @@ export default function Trx() {
                                                         <h6 className="fs-3 fw-semibold mb-2">No. {indexDesc} / Jam {extractDateTime(item.group_trx)}</h6>
                                                     </div>
                                                     {item?.Trx.map((itemTrx)=>{
+                                                        
                                                         return(
 
                                                             <div key={itemTrx.id} className="mb-1">

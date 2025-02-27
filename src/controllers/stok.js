@@ -61,7 +61,7 @@ async function ChangeStok(kode_produk, jumlah_beli, action) {
 
     } catch (error) {
         console.error('Error:', error);
-        alert("error update")
+        // alert("error update")
         return "error"
     }
 
