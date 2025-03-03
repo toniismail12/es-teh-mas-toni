@@ -396,31 +396,6 @@ export default function Trx() {
                                 <div className="card w-100 position-relative overflow-hidden mb-0">
                                     <div className="card-body p-4">
 
-                                        {/* <div className="mb-2 row align-items-center">
-                                            <label
-                                                htmlFor="exampleInputText33"
-                                                className="form-label col-sm-3 col-form-label"
-                                            >
-                                                Transaksi
-                                            </label>
-                                            <div className="col-sm-9">
-                                                <div className="input-group border rounded-1">
-                                                    <span
-                                                        className="input-group-text bg-transparent px-6 border-0"
-                                                    >
-                                                        <i className="ti ti-star" />
-                                                    </span>
-                                                    <input
-                                                        value={groupTransaksi}
-                                                        className="form-control border-0 ps-2"
-                                                        placeholder="date"
-                                                        type="text"
-                                                        disabled
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div> */}
-
                                         <div className="mb-2 row align-items-center">
                                             <label
                                                 htmlFor="exampleInputText33"
@@ -485,26 +460,34 @@ export default function Trx() {
                                             </label>
                                             <div className="col-sm-9">
                                                 <div className="input-group border rounded-1">
-                                                    <span
-                                                        className="input-group-text bg-transparent px-6 border-0"
+                                                    <button
+                                                        onClick={() => jumlahBeli > 1 ? setJumlahBeli(jumlahBeli-1) : setJumlahBeli(1) }
+                                                        className="input-group-text bg-transparent px-4 border-0"
                                                     >
-                                                        <i className="ti ti-database" />
-                                                    </span>
+                                                        <i className="fw-bold fs-5 ti ti-minus" />
+                                                    </button>
                                                     <input
                                                         value={jumlahBeli}
-                                                        onChange={(e) => setJumlahBeli(e.target.value)}
+                                                        // onChange={(e) => setJumlahBeli(e.target.value)}
                                                         name="jumlah_beli"
                                                         type="number"
                                                         min={1}
                                                         max={50}
-                                                        className="form-control border-0 ps-2"
+                                                        className="form-control border-0 ps-2 text-center"
                                                         placeholder="Jumlah Beli"
+                                                        disabled
                                                     />
+                                                     <button
+                                                        onClick={() => setJumlahBeli(jumlahBeli+1)}
+                                                        className="input-group-text bg-transparent px-4 border-0"
+                                                    >
+                                                        <i className="fw-bold fs-5 ti ti-plus" />
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="row">
+                                        <div className="row mt-3">
                                             <div className="col-sm-3" />
                                             <div className="col-sm-9 text-end">
 
